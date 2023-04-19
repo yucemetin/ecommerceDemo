@@ -36,4 +36,19 @@ public class User {
     private List<ProductReview> productReviews;
 
 
+    @OneToMany(mappedBy = "user")
+    private List<ReviewReply> reviewReplies;
+
+    @OneToMany(mappedBy = "order")
+    private List<Return> returns;
+
+
+
+
+
+
+
+
+
+
 }

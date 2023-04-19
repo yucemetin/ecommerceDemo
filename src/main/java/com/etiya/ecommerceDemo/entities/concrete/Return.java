@@ -23,9 +23,10 @@ public class Return {
     @Column(name = "return_reason")
     private String returnReason;
 
-    /// doldurulacak private Order order;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
-    /// doldurulacak private attribute attribute;
 
 }
 

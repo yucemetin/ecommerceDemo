@@ -23,8 +23,14 @@ public class ReviewReply {
     @Column(name = "reply_text")
     private String replyText;
 
-    /// doldurulacak private review ;
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+     private User user;
 
-    /// doldurulacak private user attribute;
+    @ManyToOne
+    @JoinColumn(name = "review_id")
+    private ProductReview productReview;
+
+
 
 }

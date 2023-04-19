@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -25,7 +26,12 @@ public class Order {
     @Column(name = "order_date")
     private Date orderDate;
 
-    /// doldurulacak private User user;
+    @OneToMany(mappedBy = "order")
+    private List<Return> returns;
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    private User user;
 
 
 }
