@@ -4,13 +4,14 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "product_reviews")
+@Table(name = "product_discount")
 public class ProductDiscount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +25,13 @@ public class ProductDiscount {
     private Date startDate;
 
     @Column(name = "discount_amount")
-    private int discountAmount;
+    private float discountAmount;
 
-    /// doldurulacak product  ;
+    @ManyToOne()
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+
 
 
 

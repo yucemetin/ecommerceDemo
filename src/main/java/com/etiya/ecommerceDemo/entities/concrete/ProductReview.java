@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,8 +24,12 @@ public class ProductReview {
     @Column(name = "review_text")
     private String reviewText;
 
-    /// doldurulacak product  ;
+    @ManyToOne()
+    @JoinColumn(name = "product_id")
+    private Product product;
 
-    /// doldurulacak private user;
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }
