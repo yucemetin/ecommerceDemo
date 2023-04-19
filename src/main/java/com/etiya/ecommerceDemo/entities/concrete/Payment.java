@@ -5,8 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -19,8 +22,7 @@ public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Column(name = "payment_date")
     private Date paymentDate;
@@ -28,9 +30,12 @@ public class Payment {
     @Column(name = "payment_amount")
     private int paymentAmount;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "invoice_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Invoice invoice;
 
-    /// doldurulacak private invoice invoice;
-
-
+//    @OneToMany(mappedBy = "Installment")
+//    private List<Installment> installments;
 
 }
