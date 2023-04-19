@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -25,9 +27,13 @@ public class ProductVariation {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    /// doldurulacak private product product;
+    @ManyToOne()
+    @JoinColumn(name = "product_id")
+    private Product product;
 
-    /// doldurulacak private attribute attribute;
+    @ManyToOne()
+    @JoinColumn(name = "attribute_id")
+    private ProductAttribute productAttribute;
 
 }
 

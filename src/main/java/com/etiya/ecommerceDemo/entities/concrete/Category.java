@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor // tüm propertyler ile doldurulmuş constructor
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "categories")
 public class Category {

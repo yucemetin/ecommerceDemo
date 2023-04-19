@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,7 +20,7 @@ public class Product {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "name")
+    @Column(name = "product_name")
     private String name;
 
     @Column(name = "unit_price")
@@ -27,5 +29,19 @@ public class Product {
     @ManyToOne()
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @OneToMany(mappedBy = "product")
+    private List<ProductDiscount> productDiscounts;
+
+    @OneToMany(mappedBy = "product")
+    private List<ProductReview> productReviews;
+
+    @OneToMany(mappedBy = "product")
+    private List<ProductSupplier> productSuppliers;
+
+    @OneToMany(mappedBy = "product")
+    private List<ProductVariation> productVariations;
+
+
 
 }
