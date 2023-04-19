@@ -28,8 +28,9 @@ public class Invoice {
     @Column(name = "total_amount")
     private int totalAmount;
 
-
-    /// doldurulacak private Order order;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
 
 }

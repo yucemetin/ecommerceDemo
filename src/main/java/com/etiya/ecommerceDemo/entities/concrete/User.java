@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -29,6 +31,21 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+
+    @OneToMany(mappedBy = "user")
+    private List<ReviewReply> reviewReplies;
+
+    @OneToMany(mappedBy = "order")
+    private List<Return> returns;
+
+
+
+
+
+
+
+
 
 
 }
