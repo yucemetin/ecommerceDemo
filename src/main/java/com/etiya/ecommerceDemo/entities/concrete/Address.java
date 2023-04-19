@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @Setter
@@ -15,22 +17,22 @@ import lombok.Setter;
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
+    private Long id;
 
-    @Column(name = "country")
+    @Column(nullable = false)
     private String country;
 
-    @Column(name = "city")
+    @Column(nullable = false)
     private String city;
 
-    @Column(name = "district")
+    @Column(nullable = false)
     private String district;
 
-    @Column(name = "street")
+    @Column(nullable = false)
     private String street;
 
-    ///// doldurulacak private User user;
-
-
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
 }
