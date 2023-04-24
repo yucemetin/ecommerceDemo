@@ -31,6 +31,7 @@ public class Return {
     private Order order;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
 }
