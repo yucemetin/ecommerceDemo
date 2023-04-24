@@ -39,7 +39,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<ReviewReply> reviewReplies;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "user")
     private List<Return> returns;
 
 
