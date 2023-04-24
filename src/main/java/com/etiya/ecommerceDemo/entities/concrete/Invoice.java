@@ -31,7 +31,6 @@ public class Invoice {
     @Column(name = "total_amount")
     private int totalAmount;
 
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "order_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
