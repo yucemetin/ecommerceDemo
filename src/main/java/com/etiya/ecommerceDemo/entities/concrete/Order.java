@@ -28,11 +28,10 @@ public class Order {
     @Column(name = "order_date")
     private Date orderDate;
 
-//    @OneToMany(mappedBy = "Invoice")
-//    private List<Invoice> invoice;
 
-//    @OneToMany(mappedBy = "OrderDetail")
-//    private List<OrderDetail> orderDetail;
+    @OneToMany(mappedBy = "order")
+    private List<Invoice> invoice;
+
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
@@ -40,6 +39,7 @@ public class Order {
     private User user;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
