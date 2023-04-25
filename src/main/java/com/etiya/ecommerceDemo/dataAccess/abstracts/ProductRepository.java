@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product,Integer> {
 
-    @Query(value = "SELECT p.* FROM products p INNER JOIN order_details od ON od.product_id = p.product_id", nativeQuery = true)
+    @Query(value = "SELECT p.* FROM products p INNER JOIN order_details od ON od.product_id = p.id", nativeQuery = true)
     List<Product> getProductByOrdered();
 }

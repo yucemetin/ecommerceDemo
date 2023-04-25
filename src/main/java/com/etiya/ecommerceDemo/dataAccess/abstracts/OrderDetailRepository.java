@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface OrderDetailRepository extends JpaRepository<OrderDetail,Long> {
 
-    @Query(value = "SELECT od.* FROM order_details od INNER JOIN order o ON o.order_id = od.order_id", nativeQuery = true)
+    @Query(value = "SELECT od.* FROM order_details od INNER JOIN orders o ON o.id = od.order_id", nativeQuery = true)
     List<OrderDetail> getAllOrderDetails();
 }
