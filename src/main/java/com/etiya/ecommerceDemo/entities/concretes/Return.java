@@ -1,10 +1,7 @@
 package com.etiya.ecommerceDemo.entities.concretes;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
@@ -29,10 +26,9 @@ public class Return {
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
-
+    
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
 }
 
