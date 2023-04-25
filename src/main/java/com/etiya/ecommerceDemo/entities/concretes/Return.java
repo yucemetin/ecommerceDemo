@@ -26,5 +26,9 @@ public class Return {
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
 
