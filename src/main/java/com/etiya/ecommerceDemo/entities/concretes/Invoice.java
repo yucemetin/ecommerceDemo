@@ -37,5 +37,5 @@ public class Invoice {
     private Order order;
 
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Payment> payments = new ArrayList<>();
+    private List<Payment> payments;
 }
