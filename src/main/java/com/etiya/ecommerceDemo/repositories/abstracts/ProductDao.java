@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface ProductDao extends JpaRepository<Product,Integer> {
+public interface ProductDao extends JpaRepository<Product,Long> {
 
     @Query(value = "SELECT p.* FROM products p INNER JOIN order_details od ON od.product_id = p.id", nativeQuery = true)
     List<Product> getProductByOrdered();

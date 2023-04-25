@@ -19,6 +19,11 @@ public class ProductManager implements ProductService {
     }
 
     @Override
+    public Product getById(Long id) {
+        return productDao.findById(id).orElseThrow();
+    }
+
+    @Override
     public void addProduct(Product product) {
         productDao.save(product);
     }
