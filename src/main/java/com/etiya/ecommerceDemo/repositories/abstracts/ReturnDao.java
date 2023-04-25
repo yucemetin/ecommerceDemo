@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface ReturnDao extends JpaRepository<Return,Integer> {
+public interface ReturnDao extends JpaRepository<Return,Long> {
 
     @Query(value = "SELECT r.* FROM orders o INNER JOIN returns r ON o.id = r.order_id", nativeQuery = true)
     List<Return> getOrderByReturns();

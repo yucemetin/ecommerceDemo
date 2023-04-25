@@ -18,4 +18,14 @@ public class CategoryManager implements CategoryService {
     public List<Category> getAll() {
         return categoryDao.findAll();
     }
+
+    @Override
+    public Category getById(Long id) {
+        return categoryDao.findById(id).orElseThrow();
+    }
+
+    @Override
+    public void addCategory(Category category) {
+        categoryDao.save(category);
+    }
 }
