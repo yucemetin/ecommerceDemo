@@ -10,5 +10,5 @@ public interface CategoryService {
 
     Category getById(Long id);
 
-    void addCategory(Category category);
+    void addCategory(Category category) throws Exception;
 }

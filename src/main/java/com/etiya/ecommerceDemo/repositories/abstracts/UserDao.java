@@ -9,4 +9,6 @@ import java.util.List;
 public interface UserDao extends JpaRepository<User,Long> {
     @Query(value = "SELECT * FROM users", nativeQuery = true)
     List<User> findAllUser();
+
+    User findByEmail(String email);
 }
