@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order,Long> {
-    @Query(value = "SELECT o.* FROM order o INNER JOIN returns r ON o.order_id = r.order_id", nativeQuery = true)
+    @Query(value = "SELECT o.* FROM orders o INNER JOIN returns r ON o.id = r.order_id", nativeQuery = true)
     List<Order> getOrderByReturns();
 
 }

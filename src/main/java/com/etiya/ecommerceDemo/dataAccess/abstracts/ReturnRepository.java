@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface ReturnRepository extends JpaRepository<Return,Integer> {
 
-    @Query(value = "SELECT r.* FROM order o INNER JOIN returns r ON o.order_id = r.order_id", nativeQuery = true)
+    @Query(value = "SELECT r.* FROM orders o INNER JOIN returns r ON o.id = r.order_id", nativeQuery = true)
     List<Return> getOrderByReturns();
 }
