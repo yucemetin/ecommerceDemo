@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "products")
+@JsonIgnoreProperties({"productDiscounts", "productReviews","productSuppliers","productVariations","orderDetails"})
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
