@@ -25,7 +25,10 @@ public class SupplierManager implements SupplierService {
     }
 
     @Override
-    public void addSupplier(Supplier supplier) {
+    public void addSupplier(Supplier supplier) throws Exception {
+        if (supplierDao.findBySupplierName(supplier.getSupplierName()) != null) {
+            throw new Exception("Girdiğiniz isim zaten mevcut");
+        }
         supplierDao.save(supplier);
     }
 }

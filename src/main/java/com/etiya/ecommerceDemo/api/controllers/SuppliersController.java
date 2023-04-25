@@ -24,7 +24,7 @@ public class SuppliersController {
     }
 
     @PostMapping
-    public void addProduct(@RequestBody Supplier supplier) {
+    public void addProduct(@RequestBody Supplier supplier) throws Exception {
         supplierService.addSupplier(supplier);
     }
 }

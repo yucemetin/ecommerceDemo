@@ -25,7 +25,7 @@ public class UsersController {
     }
 
     @PostMapping
-    public void addProduct(@RequestBody User user) {
+    public void addProduct(@RequestBody User user) throws Exception {
         userService.addUser(user);
     }
 }

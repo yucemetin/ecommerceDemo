@@ -24,7 +24,10 @@ public class UserManager implements UserService {
     }
 
     @Override
-    public void addUser(User user) {
+    public void addUser(User user) throws Exception {
+        if (userDao.findByEmail(user.getEmail()) != null) {
+            throw new Exception("Girdiğiniz email zaten mevcut");
+        }
         userDao.save(user);
     }
 }

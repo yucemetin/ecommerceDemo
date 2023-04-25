@@ -25,7 +25,12 @@ public class CategoryManager implements CategoryService {
     }
 
     @Override
-    public void addCategory(Category category) {
+    public void addCategory(Category category) throws Exception {
+
+        if (categoryDao.findByName(category.getName()) != null) {
+            throw new Exception("Girdiğiniz kategori zaten mevcut");
+        }
+
         categoryDao.save(category);
     }
 }

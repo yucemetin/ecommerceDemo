@@ -9,5 +9,5 @@ public interface SupplierService {
 
     Supplier getById(Long id);
 
-    void addSupplier(Supplier supplier);
+    void addSupplier(Supplier supplier) throws Exception;
 }
