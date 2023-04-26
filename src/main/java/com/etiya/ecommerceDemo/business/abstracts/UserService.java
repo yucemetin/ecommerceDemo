@@ -1,13 +1,15 @@
 package com.etiya.ecommerceDemo.business.abstracts;
 
-import com.etiya.ecommerceDemo.entities.concretes.User;
+import com.etiya.ecommerceDemo.business.dtos.requests.AddUserRequest;
+import com.etiya.ecommerceDemo.business.dtos.responses.AddUserResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.ListUserResponse;
 
 import java.util.List;
 
 public interface UserService {
-    List<User> getAll();
+    List<ListUserResponse> getAll();
 
-    User getById(Long id);
+    ListUserResponse getById(Long id);
 
-    void addUser(User user) throws Exception;
+    AddUserResponse addUser(AddUserRequest addUserRequest) throws Exception;
 }
