@@ -1,6 +1,7 @@
 package com.etiya.ecommerceDemo.repositories.abstracts;
 
 import com.etiya.ecommerceDemo.business.dtos.responses.ListUserResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.UserDetailResponse;
 import com.etiya.ecommerceDemo.entities.concretes.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,9 +15,9 @@ public interface UserDao extends JpaRepository<User, Long> {
     User findByEmail(String email);
 
     @Query(value = "select new" +
-            " com.etiya.ecommerceDemo.business.dtos.responses.ListUserResponse(u.id,u.first_name,u.last_name,u.email,u.password)" +
+            " com.etiya.ecommerceDemo.business.dtos.responses.UserDetailResponse(u.id,u.first_name,u.last_name,u.email,u.password)" +
             " from User u where u.id = :id", nativeQuery = false)
-    ListUserResponse getUserById(Long id);
+    UserDetailResponse getUserById(Long id);
 
     @Query(value = "select new" +
             " com.etiya.ecommerceDemo.business.dtos.responses.ListUserResponse(u.id,u.first_name,u.last_name,u.email,u.password)" +

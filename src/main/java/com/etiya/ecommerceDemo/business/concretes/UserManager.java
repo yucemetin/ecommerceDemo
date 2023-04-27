@@ -4,6 +4,8 @@ import com.etiya.ecommerceDemo.business.abstracts.UserService;
 import com.etiya.ecommerceDemo.business.dtos.requests.AddUserRequest;
 import com.etiya.ecommerceDemo.business.dtos.responses.AddUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.ListUserResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.UserDetailResponse;
+import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
 import com.etiya.ecommerceDemo.entities.concretes.User;
 import com.etiya.ecommerceDemo.repositories.abstracts.UserDao;
 import lombok.AllArgsConstructor;
@@ -22,14 +24,14 @@ public class UserManager implements UserService {
     }
 
     @Override
-    public ListUserResponse getById(Long id) {
+    public UserDetailResponse getById(Long id) {
         return userDao.getUserById(id);
     }
 
     @Override
     public AddUserResponse addUser(AddUserRequest addUserRequest) throws Exception {
         if (userDao.findByEmail(addUserRequest.getEmail()) != null) {
-            throw new Exception("Girdiğiniz email zaten mevcut");
+            throw new BusinessException("Girdiğiniz email zaten mevcut");
         }
 
         User user = new User();

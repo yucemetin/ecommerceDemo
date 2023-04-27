@@ -3,6 +3,7 @@ package com.etiya.ecommerceDemo.api.controllers;
 import com.etiya.ecommerceDemo.business.abstracts.UserService;
 import com.etiya.ecommerceDemo.business.dtos.requests.AddUserRequest;
 import com.etiya.ecommerceDemo.business.dtos.responses.ListUserResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.UserDetailResponse;
 import com.etiya.ecommerceDemo.entities.concretes.User;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class UsersController {
     }
 
     @GetMapping("/{id}")
-    public ListUserResponse getById(@PathVariable Long id) {
+    public UserDetailResponse getById(@PathVariable Long id) {
         return userService.getById(id);
     }
 
