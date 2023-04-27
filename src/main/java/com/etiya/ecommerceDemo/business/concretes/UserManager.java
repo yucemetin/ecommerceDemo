@@ -1,11 +1,12 @@
 package com.etiya.ecommerceDemo.business.concretes;
 
 import com.etiya.ecommerceDemo.business.abstracts.UserService;
-import com.etiya.ecommerceDemo.business.dtos.requests.AddUserRequest;
-import com.etiya.ecommerceDemo.business.dtos.responses.AddUserResponse;
-import com.etiya.ecommerceDemo.business.dtos.responses.ListUserResponse;
-import com.etiya.ecommerceDemo.business.dtos.responses.UserDetailResponse;
+import com.etiya.ecommerceDemo.business.dtos.requests.user.AddUserRequest;
+import com.etiya.ecommerceDemo.business.dtos.responses.user.AddUserResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.user.ListUserResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
 import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
+import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.entities.concretes.User;
 import com.etiya.ecommerceDemo.repositories.abstracts.UserDao;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserManager implements UserService {
     private UserDao userDao;
+    private ModelMapperService modelMapperService;
 
     @Override
     public List<ListUserResponse> getAll() {
@@ -29,19 +31,17 @@ public class UserManager implements UserService {
     }
 
     @Override
-    public AddUserResponse addUser(AddUserRequest addUserRequest) throws Exception {
-        if (userDao.findByEmail(addUserRequest.getEmail()) != null) {
+    public AddUserResponse addUser(AddUserRequest addUserRequest) {
+
+        if (userDao.existsUserByEmail(addUserRequest.getEmail())) {
             throw new BusinessException("Girdiğiniz email zaten mevcut");
         }
 
-        User user = new User();
-        user.setFirst_name(addUserRequest.getFirst_name());
-        user.setLast_name(addUserRequest.getLast_name());
-        user.setEmail(addUserRequest.getEmail());
-        user.setPassword(addUserRequest.getPassword());
+        User user = modelMapperService.getMapper().map(addUserRequest, User.class);
 
         userDao.save(user);
-        AddUserResponse addUserResponse = new AddUserResponse(user.getId(), user.getFirst_name(), user.getLast_name(), user.getEmail(), user.getPassword());
+        AddUserResponse addUserResponse = this.modelMapperService.getMapper().map(user, AddUserResponse.class);
+
         return addUserResponse;
     }
 }

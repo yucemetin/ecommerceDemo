@@ -17,6 +17,7 @@ import org.hibernate.annotations.OnDeleteAction;
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(nullable = false)

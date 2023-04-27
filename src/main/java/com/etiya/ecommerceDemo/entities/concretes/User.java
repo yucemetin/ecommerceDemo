@@ -1,6 +1,5 @@
 package com.etiya.ecommerceDemo.entities.concretes;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,7 +38,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<ReviewReply> reviewReplies;
-    
+
     @OneToMany(mappedBy = "user")
     private List<Return> returns;
 }

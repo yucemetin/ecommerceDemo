@@ -1,10 +1,11 @@
 package com.etiya.ecommerceDemo.api.controllers;
 
 import com.etiya.ecommerceDemo.business.abstracts.UserService;
-import com.etiya.ecommerceDemo.business.dtos.requests.AddUserRequest;
-import com.etiya.ecommerceDemo.business.dtos.responses.ListUserResponse;
-import com.etiya.ecommerceDemo.business.dtos.responses.UserDetailResponse;
-import com.etiya.ecommerceDemo.entities.concretes.User;
+import com.etiya.ecommerceDemo.business.dtos.requests.user.AddUserRequest;
+import com.etiya.ecommerceDemo.business.dtos.responses.user.AddUserResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.user.ListUserResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class UsersController {
     }
 
     @PostMapping
-    public void addProduct(@RequestBody AddUserRequest addUserRequest) throws Exception {
-        userService.addUser(addUserRequest);
+    public AddUserResponse addProduct(@RequestBody @Valid AddUserRequest addUserRequest) throws Exception {
+        return userService.addUser(addUserRequest);
     }
 }

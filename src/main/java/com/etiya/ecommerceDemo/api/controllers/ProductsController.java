@@ -1,7 +1,10 @@
 package com.etiya.ecommerceDemo.api.controllers;
 
 import com.etiya.ecommerceDemo.business.abstracts.ProductService;
-import com.etiya.ecommerceDemo.entities.concretes.Product;
+import com.etiya.ecommerceDemo.business.dtos.requests.product.AddProductRequest;
+import com.etiya.ecommerceDemo.business.dtos.responses.product.AddProductResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.product.ListProductResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.product.ProductDetailResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,17 +18,17 @@ public class ProductsController {
     private ProductService productService;
 
     @GetMapping
-    public List<Product> getAll() {
+    public List<ListProductResponse> getAll() {
         return productService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Product getById(@PathVariable Long id) {
+    public ProductDetailResponse getById(@PathVariable Long id) {
         return productService.getById(id);
     }
 
     @PostMapping
-    public void addProduct(@RequestBody Product product) {
-        productService.addProduct(product);
+    public AddProductResponse addProduct(@RequestBody AddProductRequest addProductRequest) {
+        return productService.addProduct(addProductRequest);
     }
 }

@@ -1,9 +1,9 @@
 package com.etiya.ecommerceDemo.business.abstracts;
 
-import com.etiya.ecommerceDemo.business.dtos.requests.AddUserRequest;
-import com.etiya.ecommerceDemo.business.dtos.responses.AddUserResponse;
-import com.etiya.ecommerceDemo.business.dtos.responses.ListUserResponse;
-import com.etiya.ecommerceDemo.business.dtos.responses.UserDetailResponse;
+import com.etiya.ecommerceDemo.business.dtos.requests.user.AddUserRequest;
+import com.etiya.ecommerceDemo.business.dtos.responses.user.AddUserResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.user.ListUserResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
 
 import java.util.List;
 

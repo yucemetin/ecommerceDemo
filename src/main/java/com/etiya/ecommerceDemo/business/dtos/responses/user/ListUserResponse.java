@@ -1,13 +1,14 @@
-package com.etiya.ecommerceDemo.business.dtos.responses;
+package com.etiya.ecommerceDemo.business.dtos.responses.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class AddUserResponse {
+@NoArgsConstructor
+public class ListUserResponse {
     private Long id;
-
     private String first_name;
 
     private String last_name;
