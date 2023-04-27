@@ -1,6 +1,11 @@
 package com.etiya.ecommerceDemo.business.concretes;
 
 import com.etiya.ecommerceDemo.business.abstracts.OrderService;
+import com.etiya.ecommerceDemo.business.dtos.requests.order.AddOrderRequest;
+import com.etiya.ecommerceDemo.business.dtos.responses.order.AddOrderResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.order.ListOrderResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.order.OrderDetailResponse;
+import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.entities.concretes.Order;
 import com.etiya.ecommerceDemo.repositories.abstracts.OrderDao;
 import lombok.AllArgsConstructor;
@@ -12,19 +17,27 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderManager implements OrderService {
     private OrderDao orderDao;
+    private ModelMapperService modelMapperService;
 
     @Override
-    public List<Order> getAll() {
-        return orderDao.findAll();
+    public List<ListOrderResponse> getAll() {
+        return orderDao.getAll();
     }
 
     @Override
-    public Order getById(Long id) {
-        return orderDao.findById(id).orElseThrow();
+    public OrderDetailResponse getById(Long id) {
+        return orderDao.getOneOrder(id);
     }
 
     @Override
-    public void addOrder(Order order) {
+    public AddOrderResponse addOrder(AddOrderRequest addOrderRequest) {
+
+        Order order = this.modelMapperService.getMapper().map(addOrderRequest, Order.class);
+
         orderDao.save(order);
+
+        AddOrderResponse addOrderResponse = this.modelMapperService.getMapper().map(order, AddOrderResponse.class);
+
+        return addOrderResponse;
     }
 }

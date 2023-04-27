@@ -31,7 +31,7 @@ public class EcommerceDemoApplication {
     @ExceptionHandler({BusinessException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleBusinessException(BusinessException exception) {
-        return "HATA: " + exception.getMessage();
+        return exception.getMessage();
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})

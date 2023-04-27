@@ -34,7 +34,6 @@ public class ProductManager implements ProductService {
     public AddProductResponse addProduct(AddProductRequest addProductRequest) {
 
         Product product = this.modelMapperService.getMapper().map(addProductRequest, Product.class);
-
         productDao.save(product);
 
         return this.modelMapperService.getMapper().map(product, AddProductResponse.class);

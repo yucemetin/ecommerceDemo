@@ -1,7 +1,11 @@
 package com.etiya.ecommerceDemo.api.controllers;
 
 import com.etiya.ecommerceDemo.business.abstracts.CategoryService;
-import com.etiya.ecommerceDemo.entities.concretes.Category;
+import com.etiya.ecommerceDemo.business.dtos.requests.category.AddCategoryRequest;
+import com.etiya.ecommerceDemo.business.dtos.responses.category.AddCategoryResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.category.CategoryDetailResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.category.ListCategoryResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,17 +19,17 @@ public class CategoriesController {
     private CategoryService categoryService;
 
     @GetMapping
-    public List<Category> getAll() {
+    public List<ListCategoryResponse> getAll() {
         return categoryService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Category getById(@PathVariable Long id) {
+    public CategoryDetailResponse getById(@PathVariable Long id) {
         return categoryService.getById(id);
     }
 
     @PostMapping
-    public void addCategory(@RequestBody Category category) throws Exception {
-        categoryService.addCategory(category);
+    public AddCategoryResponse addCategory(@RequestBody @Valid AddCategoryRequest addCategoryRequest) throws Exception {
+        return categoryService.addCategory(addCategoryRequest);
     }
 }

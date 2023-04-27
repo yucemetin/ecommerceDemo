@@ -1,7 +1,11 @@
 package com.etiya.ecommerceDemo.api.controllers;
 
 import com.etiya.ecommerceDemo.business.abstracts.OrderService;
-import com.etiya.ecommerceDemo.entities.concretes.Order;
+import com.etiya.ecommerceDemo.business.dtos.requests.order.AddOrderRequest;
+import com.etiya.ecommerceDemo.business.dtos.responses.order.AddOrderResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.order.ListOrderResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.order.OrderDetailResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,17 +19,17 @@ public class OrdersController {
     private OrderService orderService;
 
     @GetMapping
-    public List<Order> getAll() {
+    public List<ListOrderResponse> getAll() {
         return orderService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Order getById(@PathVariable Long id) {
+    public OrderDetailResponse getById(@PathVariable Long id) {
         return orderService.getById(id);
     }
 
     @PostMapping
-    public void addCategory(@RequestBody Order order) {
-        orderService.addOrder(order);
+    public AddOrderResponse addCategory(@RequestBody  AddOrderRequest addOrderRequest) {
+        return orderService.addOrder(addOrderRequest);
     }
 }

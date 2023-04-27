@@ -1,13 +1,17 @@
 package com.etiya.ecommerceDemo.business.abstracts;
 
+import com.etiya.ecommerceDemo.business.dtos.requests.supplier.AddSupplierRequest;
+import com.etiya.ecommerceDemo.business.dtos.responses.supplier.AddSupplierResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.supplier.ListSupplierResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.supplier.SupplierDetailResponse;
 import com.etiya.ecommerceDemo.entities.concretes.Supplier;
 
 import java.util.List;
 
 public interface SupplierService {
-    List<Supplier> getAll();
+    List<ListSupplierResponse> getAll();
 
-    Supplier getById(Long id);
+    SupplierDetailResponse getById(Long id);
 
-    void addSupplier(Supplier supplier) throws Exception;
+    AddSupplierResponse addSupplier(AddSupplierRequest addSupplierRequest) throws Exception;
 }

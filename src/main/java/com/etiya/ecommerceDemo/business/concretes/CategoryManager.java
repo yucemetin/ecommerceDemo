@@ -1,6 +1,12 @@
 package com.etiya.ecommerceDemo.business.concretes;
 
 import com.etiya.ecommerceDemo.business.abstracts.CategoryService;
+import com.etiya.ecommerceDemo.business.dtos.requests.category.AddCategoryRequest;
+import com.etiya.ecommerceDemo.business.dtos.responses.category.AddCategoryResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.category.CategoryDetailResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.category.ListCategoryResponse;
+import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
+import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.entities.concretes.Category;
 import com.etiya.ecommerceDemo.repositories.abstracts.CategoryDao;
 import lombok.AllArgsConstructor;
@@ -13,24 +19,32 @@ import java.util.List;
 public class CategoryManager implements CategoryService {
 
     private CategoryDao categoryDao;
+    private ModelMapperService modelMapperService;
 
     @Override
-    public List<Category> getAll() {
-        return categoryDao.findAll();
+    public List<ListCategoryResponse> getAll() {
+        return categoryDao.getAll();
     }
 
     @Override
-    public Category getById(Long id) {
-        return categoryDao.findById(id).orElseThrow();
+    public CategoryDetailResponse getById(Long id) {
+        return categoryDao.getCategoryById(id);
     }
 
     @Override
-    public void addCategory(Category category) throws Exception {
+    public AddCategoryResponse addCategory(AddCategoryRequest addCategoryRequest) {
 
-        if (categoryDao.findByName(category.getName()) != null) {
-            throw new Exception("Girdiğiniz kategori zaten mevcut");
+        if (categoryDao.existsCategoriesByName(addCategoryRequest.getName())) {
+            throw new BusinessException("Girdiğiniz kategori zaten mevcut");
         }
 
+        Category category = this.modelMapperService.getMapper().map(addCategoryRequest, Category.class);
+
         categoryDao.save(category);
+
+        AddCategoryResponse addCategoryResponse = this.modelMapperService.getMapper().map(category, AddCategoryResponse.class);
+
+        return addCategoryResponse;
+
     }
 }

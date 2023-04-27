@@ -1,13 +1,16 @@
 package com.etiya.ecommerceDemo.business.abstracts;
 
-import com.etiya.ecommerceDemo.entities.concretes.Order;
+import com.etiya.ecommerceDemo.business.dtos.requests.order.AddOrderRequest;
+import com.etiya.ecommerceDemo.business.dtos.responses.order.AddOrderResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.order.ListOrderResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.order.OrderDetailResponse;
 
 import java.util.List;
 
 public interface OrderService {
-    List<Order> getAll();
+    List<ListOrderResponse> getAll();
 
-    Order getById(Long id);
+    OrderDetailResponse getById(Long id);
 
-    void addOrder(Order order);
+    AddOrderResponse addOrder(AddOrderRequest addOrderRequest);
 }
