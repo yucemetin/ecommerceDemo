@@ -4,13 +4,14 @@ import com.etiya.ecommerceDemo.business.dtos.requests.order.AddOrderRequest;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.AddOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.ListOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.OrderDetailResponse;
+import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 
 import java.util.List;
 
 public interface OrderService {
-    List<ListOrderResponse> getAll();
+    DataResult<List<ListOrderResponse>> getAll();
 
-    OrderDetailResponse getById(Long id);
+    DataResult<OrderDetailResponse> getById(Long id);
 
-    AddOrderResponse addOrder(AddOrderRequest addOrderRequest);
+    DataResult<AddOrderResponse> addOrder(AddOrderRequest addOrderRequest);
 }

@@ -4,15 +4,15 @@ import com.etiya.ecommerceDemo.business.dtos.requests.category.AddCategoryReques
 import com.etiya.ecommerceDemo.business.dtos.responses.category.AddCategoryResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.category.CategoryDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.category.ListCategoryResponse;
-import com.etiya.ecommerceDemo.entities.concretes.Category;
+import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 
 import java.util.List;
 
 public interface CategoryService {
 
-    List<ListCategoryResponse> getAll();
+    DataResult<List<ListCategoryResponse>> getAll();
 
-    CategoryDetailResponse getById(Long id);
+    DataResult<CategoryDetailResponse> getById(Long id);
 
-    AddCategoryResponse addCategory(AddCategoryRequest addCategoryRequest) throws Exception;
+    DataResult<AddCategoryResponse> addCategory(AddCategoryRequest addCategoryRequest) throws Exception;
 }

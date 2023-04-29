@@ -4,13 +4,14 @@ import com.etiya.ecommerceDemo.business.dtos.requests.user.AddUserRequest;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.AddUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.ListUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
+import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 
 import java.util.List;
 
 public interface UserService {
-    List<ListUserResponse> getAll();
+    DataResult<List<ListUserResponse>> getAll();
 
-    UserDetailResponse getById(Long id);
+    DataResult<UserDetailResponse> getById(Long id);
 
-    AddUserResponse addUser(AddUserRequest addUserRequest) throws Exception;
+    DataResult<AddUserResponse> addUser(AddUserRequest addUserRequest) throws Exception;
 }

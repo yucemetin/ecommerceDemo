@@ -5,6 +5,7 @@ import com.etiya.ecommerceDemo.business.dtos.requests.user.AddUserRequest;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.AddUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.ListUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
+import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,17 +20,17 @@ public class UsersController {
     private UserService userService;
 
     @GetMapping
-    public List<ListUserResponse> getAll() {
+    public DataResult<List<ListUserResponse>> getAll() {
         return userService.getAll();
     }
 
     @GetMapping("/{id}")
-    public UserDetailResponse getById(@PathVariable Long id) {
+    public DataResult<UserDetailResponse> getById(@PathVariable Long id) {
         return userService.getById(id);
     }
 
     @PostMapping
-    public AddUserResponse addProduct(@RequestBody @Valid AddUserRequest addUserRequest) throws Exception {
+    public DataResult<AddUserResponse> addProduct(@RequestBody @Valid AddUserRequest addUserRequest) throws Exception {
         return userService.addUser(addUserRequest);
     }
 }

@@ -1,6 +1,9 @@
 package com.etiya.ecommerceDemo;
 
 import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
+import com.etiya.ecommerceDemo.core.utils.result.ErrorDataResult;
+import com.etiya.ecommerceDemo.core.utils.result.ErrorResult;
+import com.etiya.ecommerceDemo.core.utils.result.Result;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,13 +33,13 @@ public class EcommerceDemoApplication {
 
     @ExceptionHandler({BusinessException.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String handleBusinessException(BusinessException exception) {
-        return exception.getMessage();
+    public Result handleBusinessException(BusinessException exception) {
+        return new ErrorResult(exception.getMessage());
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Object handleValidationException(MethodArgumentNotValidException exception) {
+    public ErrorDataResult<Map<String, String>> handleValidationException(MethodArgumentNotValidException exception) {
 
         Map<String, String> errors = new HashMap<>();
 
@@ -44,6 +47,6 @@ public class EcommerceDemoApplication {
             errors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
 
-        return errors;
+        return new ErrorDataResult<>(errors, "Validasyon hatası.");
     }
 }

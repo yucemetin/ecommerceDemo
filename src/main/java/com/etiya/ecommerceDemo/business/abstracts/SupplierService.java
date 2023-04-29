@@ -4,14 +4,14 @@ import com.etiya.ecommerceDemo.business.dtos.requests.supplier.AddSupplierReques
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.AddSupplierResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.ListSupplierResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.SupplierDetailResponse;
-import com.etiya.ecommerceDemo.entities.concretes.Supplier;
+import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 
 import java.util.List;
 
 public interface SupplierService {
-    List<ListSupplierResponse> getAll();
+    DataResult<List<ListSupplierResponse>> getAll();
 
-    SupplierDetailResponse getById(Long id);
+    DataResult<SupplierDetailResponse> getById(Long id);
 
-    AddSupplierResponse addSupplier(AddSupplierRequest addSupplierRequest) throws Exception;
+    DataResult<AddSupplierResponse> addSupplier(AddSupplierRequest addSupplierRequest) throws Exception;
 }

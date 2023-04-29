@@ -6,6 +6,9 @@ import com.etiya.ecommerceDemo.business.dtos.responses.order.AddOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.ListOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.OrderDetailResponse;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
+import com.etiya.ecommerceDemo.core.utils.result.DataResult;
+import com.etiya.ecommerceDemo.core.utils.result.ErrorDataResult;
+import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.Order;
 import com.etiya.ecommerceDemo.repositories.abstracts.OrderDao;
 import lombok.AllArgsConstructor;
@@ -20,17 +23,20 @@ public class OrderManager implements OrderService {
     private ModelMapperService modelMapperService;
 
     @Override
-    public List<ListOrderResponse> getAll() {
-        return orderDao.getAll();
+    public DataResult<List<ListOrderResponse>> getAll() {
+        return new SuccessDataResult<>(orderDao.getAll(), "Siparişler başarılı bir şekilde listelendi.");
     }
 
     @Override
-    public OrderDetailResponse getById(Long id) {
-        return orderDao.getOneOrder(id);
+    public DataResult<OrderDetailResponse> getById(Long id) {
+        if (orderDao.getOneOrder(id) == null) {
+            return new ErrorDataResult<>(orderDao.getOneOrder(id), "Sipariş bulunamadı.");
+        }
+        return new SuccessDataResult<>(orderDao.getOneOrder(id), "Sipariş başarılı bir şekilde listelendi.");
     }
 
     @Override
-    public AddOrderResponse addOrder(AddOrderRequest addOrderRequest) {
+    public DataResult<AddOrderResponse> addOrder(AddOrderRequest addOrderRequest) {
 
         Order order = this.modelMapperService.getMapper().map(addOrderRequest, Order.class);
 
@@ -38,6 +44,6 @@ public class OrderManager implements OrderService {
 
         AddOrderResponse addOrderResponse = this.modelMapperService.getMapper().map(order, AddOrderResponse.class);
 
-        return addOrderResponse;
+        return new SuccessDataResult<>(addOrderResponse, "Sipariş başarılı bir şekild eklendi.");
     }
 }

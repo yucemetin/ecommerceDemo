@@ -5,6 +5,7 @@ import com.etiya.ecommerceDemo.business.dtos.requests.supplier.AddSupplierReques
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.AddSupplierResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.ListSupplierResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.SupplierDetailResponse;
+import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,17 +19,17 @@ public class SuppliersController {
     private SupplierService supplierService;
 
     @GetMapping
-    public List<ListSupplierResponse> getAll() {
+    public DataResult<List<ListSupplierResponse>> getAll() {
         return supplierService.getAll();
     }
 
     @GetMapping("/{id}")
-    public SupplierDetailResponse getById(@PathVariable Long id) {
+    public DataResult<SupplierDetailResponse> getById(@PathVariable Long id) {
         return supplierService.getById(id);
     }
 
     @PostMapping
-    public AddSupplierResponse addProduct(@RequestBody @Valid AddSupplierRequest addSupplierRequest) throws Exception {
+    public DataResult<AddSupplierResponse> addProduct(@RequestBody @Valid AddSupplierRequest addSupplierRequest) throws Exception {
         return supplierService.addSupplier(addSupplierRequest);
     }
 }

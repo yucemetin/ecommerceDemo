@@ -5,6 +5,7 @@ import com.etiya.ecommerceDemo.business.dtos.requests.order.AddOrderRequest;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.AddOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.ListOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.OrderDetailResponse;
+import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,17 +19,17 @@ public class OrdersController {
     private OrderService orderService;
 
     @GetMapping
-    public List<ListOrderResponse> getAll() {
+    public DataResult<List<ListOrderResponse>> getAll() {
         return orderService.getAll();
     }
 
     @GetMapping("/{id}")
-    public OrderDetailResponse getById(@PathVariable Long id) {
+    public DataResult<OrderDetailResponse> getById(@PathVariable Long id) {
         return orderService.getById(id);
     }
 
     @PostMapping
-    public AddOrderResponse addCategory(@RequestBody  AddOrderRequest addOrderRequest) {
+    public DataResult<AddOrderResponse> addCategory(@RequestBody AddOrderRequest addOrderRequest) {
         return orderService.addOrder(addOrderRequest);
     }
 }

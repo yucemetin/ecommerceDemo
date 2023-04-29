@@ -7,6 +7,8 @@ import com.etiya.ecommerceDemo.business.dtos.responses.category.CategoryDetailRe
 import com.etiya.ecommerceDemo.business.dtos.responses.category.ListCategoryResponse;
 import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
+import com.etiya.ecommerceDemo.core.utils.result.DataResult;
+import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.Category;
 import com.etiya.ecommerceDemo.repositories.abstracts.CategoryDao;
 import lombok.AllArgsConstructor;
@@ -22,17 +24,20 @@ public class CategoryManager implements CategoryService {
     private ModelMapperService modelMapperService;
 
     @Override
-    public List<ListCategoryResponse> getAll() {
-        return categoryDao.getAll();
+    public DataResult<List<ListCategoryResponse>> getAll() {
+        return new SuccessDataResult<>(categoryDao.getAll(), "Kategoriler başarılı bir şekilde listelendi.");
     }
 
     @Override
-    public CategoryDetailResponse getById(Long id) {
-        return categoryDao.getCategoryById(id);
+    public DataResult<CategoryDetailResponse> getById(Long id) {
+        if (categoryDao.getCategoryById(id) == null) {
+            return new SuccessDataResult<>(categoryDao.getCategoryById(id), "Kategori bulunamadı.");
+        }
+        return new SuccessDataResult<>(categoryDao.getCategoryById(id), "Kategori başarılı bir şekilde listelendi.");
     }
 
     @Override
-    public AddCategoryResponse addCategory(AddCategoryRequest addCategoryRequest) {
+    public DataResult<AddCategoryResponse> addCategory(AddCategoryRequest addCategoryRequest) {
 
         if (categoryDao.existsCategoriesByName(addCategoryRequest.getName())) {
             throw new BusinessException("Girdiğiniz kategori zaten mevcut");
@@ -44,7 +49,7 @@ public class CategoryManager implements CategoryService {
 
         AddCategoryResponse addCategoryResponse = this.modelMapperService.getMapper().map(category, AddCategoryResponse.class);
 
-        return addCategoryResponse;
+        return new SuccessDataResult<>(addCategoryResponse, "Kategori başarılı bir şekilde eklendi");
 
     }
 }

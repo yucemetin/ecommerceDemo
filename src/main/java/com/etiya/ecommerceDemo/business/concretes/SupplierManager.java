@@ -6,6 +6,9 @@ import com.etiya.ecommerceDemo.business.dtos.responses.supplier.AddSupplierRespo
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.ListSupplierResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.SupplierDetailResponse;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
+import com.etiya.ecommerceDemo.core.utils.result.DataResult;
+import com.etiya.ecommerceDemo.core.utils.result.ErrorDataResult;
+import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.Supplier;
 import com.etiya.ecommerceDemo.repositories.abstracts.SupplierDao;
 import lombok.AllArgsConstructor;
@@ -21,17 +24,20 @@ public class SupplierManager implements SupplierService {
     private ModelMapperService modelMapperService;
 
     @Override
-    public List<ListSupplierResponse> getAll() {
-        return supplierDao.getAll();
+    public DataResult<List<ListSupplierResponse>> getAll() {
+        return new SuccessDataResult<>(supplierDao.getAll(), "Tedarikçiler başarılı bir şekilde listelendi.");
     }
 
     @Override
-    public SupplierDetailResponse getById(Long id) {
-        return supplierDao.getOneSupplierById(id);
+    public DataResult<SupplierDetailResponse> getById(Long id) {
+        if (supplierDao.getOneSupplierById(id) == null) {
+            return new ErrorDataResult<>(supplierDao.getOneSupplierById(id), "Tedarikçi bulunamadı.");
+        }
+        return new SuccessDataResult<>(supplierDao.getOneSupplierById(id), "Tedarikçi başarılı bir şekilde listelendi.");
     }
 
     @Override
-    public AddSupplierResponse addSupplier(AddSupplierRequest addSupplierRequest) throws Exception {
+    public DataResult<AddSupplierResponse> addSupplier(AddSupplierRequest addSupplierRequest) throws Exception {
         if (supplierDao.existsSupplierBySupplierName(addSupplierRequest.getSupplierName())) {
             throw new Exception("Girdiğiniz isim zaten mevcut");
         }
@@ -41,6 +47,6 @@ public class SupplierManager implements SupplierService {
 
         AddSupplierResponse addSupplierResponse = this.modelMapperService.getMapper().map(supplier, AddSupplierResponse.class);
 
-        return addSupplierResponse;
+        return new SuccessDataResult<>(addSupplierResponse, "Tedarikçi başarılı bir şekilde eklendi.");
     }
 }
