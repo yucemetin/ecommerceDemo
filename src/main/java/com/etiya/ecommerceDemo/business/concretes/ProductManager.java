@@ -11,6 +11,8 @@ import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.Product;
 import com.etiya.ecommerceDemo.repositories.abstracts.ProductDao;
 import lombok.AllArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,18 +23,19 @@ public class ProductManager implements ProductService {
 
     private ProductDao productDao;
     private ModelMapperService modelMapperService;
+    private MessageSource messageSource;
 
     @Override
     public DataResult<List<ListProductResponse>> getAll() {
-        return new SuccessDataResult<>(productDao.getAll(), "Ürünler başarılı bir şekilde listelendi.");
+        return new SuccessDataResult<>(productDao.getAll(), messageSource.getMessage("successListProduct",null, LocaleContextHolder.getLocale()));
     }
 
     @Override
     public DataResult<ProductDetailResponse> getById(Long id) {
         if (productDao.getProductById(id) == null) {
-            return new SuccessDataResult<>(productDao.getProductById(id), "Ürün bulunamadı.");
+            return new SuccessDataResult<>(productDao.getProductById(id), messageSource.getMessage("errorOneProduct",null, LocaleContextHolder.getLocale()));
         }
-        return new SuccessDataResult<>(productDao.getProductById(id), "Ürün başarılı bir şekilde listelendi.");
+        return new SuccessDataResult<>(productDao.getProductById(id), messageSource.getMessage("successOneProduct",null, LocaleContextHolder.getLocale()));
     }
 
     @Override
@@ -42,6 +45,6 @@ public class ProductManager implements ProductService {
         productDao.save(product);
 
         AddProductResponse addProductResponse = this.modelMapperService.getMapper().map(product, AddProductResponse.class);
-        return new SuccessDataResult<>(addProductResponse, "Ürün başarılı bir şekilde eklendi.");
+        return new SuccessDataResult<>(addProductResponse, messageSource.getMessage("successAddProduct",null, LocaleContextHolder.getLocale()));
     }
 }

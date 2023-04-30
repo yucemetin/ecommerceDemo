@@ -12,6 +12,8 @@ import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.Supplier;
 import com.etiya.ecommerceDemo.repositories.abstracts.SupplierDao;
 import lombok.AllArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,24 +24,25 @@ public class SupplierManager implements SupplierService {
 
     private SupplierDao supplierDao;
     private ModelMapperService modelMapperService;
+    private MessageSource messageSource;
 
     @Override
     public DataResult<List<ListSupplierResponse>> getAll() {
-        return new SuccessDataResult<>(supplierDao.getAll(), "Tedarikçiler başarılı bir şekilde listelendi.");
+        return new SuccessDataResult<>(supplierDao.getAll(), messageSource.getMessage("successListSupplier",null, LocaleContextHolder.getLocale()));
     }
 
     @Override
     public DataResult<SupplierDetailResponse> getById(Long id) {
         if (supplierDao.getOneSupplierById(id) == null) {
-            return new ErrorDataResult<>(supplierDao.getOneSupplierById(id), "Tedarikçi bulunamadı.");
+            return new ErrorDataResult<>(supplierDao.getOneSupplierById(id), messageSource.getMessage("errorOneSupplier",null, LocaleContextHolder.getLocale()));
         }
-        return new SuccessDataResult<>(supplierDao.getOneSupplierById(id), "Tedarikçi başarılı bir şekilde listelendi.");
+        return new SuccessDataResult<>(supplierDao.getOneSupplierById(id), messageSource.getMessage("successOneSupplier",null, LocaleContextHolder.getLocale()));
     }
 
     @Override
     public DataResult<AddSupplierResponse> addSupplier(AddSupplierRequest addSupplierRequest) throws Exception {
         if (supplierDao.existsSupplierBySupplierName(addSupplierRequest.getSupplierName())) {
-            throw new Exception("Girdiğiniz isim zaten mevcut");
+            throw new Exception(messageSource.getMessage("existsSupplierName",null, LocaleContextHolder.getLocale()));
         }
 
         Supplier supplier = this.modelMapperService.getMapper().map(addSupplierRequest, Supplier.class);
@@ -47,6 +50,6 @@ public class SupplierManager implements SupplierService {
 
         AddSupplierResponse addSupplierResponse = this.modelMapperService.getMapper().map(supplier, AddSupplierResponse.class);
 
-        return new SuccessDataResult<>(addSupplierResponse, "Tedarikçi başarılı bir şekilde eklendi.");
+        return new SuccessDataResult<>(addSupplierResponse, messageSource.getMessage("successAddSupplier",null, LocaleContextHolder.getLocale()));
     }
 }

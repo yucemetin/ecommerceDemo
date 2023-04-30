@@ -13,6 +13,8 @@ import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.User;
 import com.etiya.ecommerceDemo.repositories.abstracts.UserDao;
 import lombok.AllArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,18 +24,19 @@ import java.util.List;
 public class UserManager implements UserService {
     private UserDao userDao;
     private ModelMapperService modelMapperService;
+    private MessageSource messageSource;
 
     @Override
     public DataResult<List<ListUserResponse>> getAll() {
-        return new SuccessDataResult<>(userDao.getAll(), "Kullanıcılar başarılı bir şekilde listelendi");
+        return new SuccessDataResult<>(userDao.getAll(), messageSource.getMessage("successListUser", null, LocaleContextHolder.getLocale()));
     }
 
     @Override
     public DataResult<UserDetailResponse> getById(Long id) {
         if (userDao.getUserById(id) == null) {
-            return new ErrorDataResult<>(userDao.getUserById(id), "Kullanıcı bulunamadı.");
+            return new ErrorDataResult<>(userDao.getUserById(id), messageSource.getMessage("errorOneUser", null, LocaleContextHolder.getLocale()));
         }
-        return new SuccessDataResult<>(userDao.getUserById(id), "Kullanıcı başarılı bir şekilde listelendi.");
+        return new SuccessDataResult<>(userDao.getUserById(id), messageSource.getMessage("successOneUser", null, LocaleContextHolder.getLocale()));
 
     }
 
@@ -41,7 +44,7 @@ public class UserManager implements UserService {
     public DataResult<AddUserResponse> addUser(AddUserRequest addUserRequest) {
 
         if (userDao.existsUserByEmail(addUserRequest.getEmail())) {
-            throw new BusinessException("Girdiğiniz email zaten mevcut");
+            throw new BusinessException(messageSource.getMessage("existsEmail", null, LocaleContextHolder.getLocale()));
         }
 
         User user = modelMapperService.getMapper().map(addUserRequest, User.class);
@@ -49,6 +52,6 @@ public class UserManager implements UserService {
         userDao.save(user);
         AddUserResponse addUserResponse = this.modelMapperService.getMapper().map(user, AddUserResponse.class);
 
-        return new SuccessDataResult<>(addUserResponse, "Kullanıcı başarılı bir şekilde eklendi.");
+        return new SuccessDataResult<>(addUserResponse, messageSource.getMessage("successAddUser", null, LocaleContextHolder.getLocale()));
     }
 }

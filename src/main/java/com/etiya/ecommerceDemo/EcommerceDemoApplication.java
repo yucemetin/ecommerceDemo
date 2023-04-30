@@ -5,9 +5,12 @@ import com.etiya.ecommerceDemo.core.utils.result.ErrorDataResult;
 import com.etiya.ecommerceDemo.core.utils.result.ErrorResult;
 import com.etiya.ecommerceDemo.core.utils.result.Result;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,6 +25,9 @@ import java.util.Map;
 @RestControllerAdvice
 public class EcommerceDemoApplication {
 
+    @Autowired
+    private MessageSource messageSource;
+
     public static void main(String[] args) {
         SpringApplication.run(EcommerceDemoApplication.class, args);
     }
@@ -32,7 +38,7 @@ public class EcommerceDemoApplication {
     }
 
     @ExceptionHandler({BusinessException.class})
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Result handleBusinessException(BusinessException exception) {
         return new ErrorResult(exception.getMessage());
     }
@@ -47,6 +53,6 @@ public class EcommerceDemoApplication {
             errors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
 
-        return new ErrorDataResult<>(errors, "Validasyon hatası.");
+        return new ErrorDataResult<>(errors, messageSource.getMessage("validationError", null, LocaleContextHolder.getLocale()));
     }
 }

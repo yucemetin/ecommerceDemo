@@ -12,6 +12,8 @@ import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.Order;
 import com.etiya.ecommerceDemo.repositories.abstracts.OrderDao;
 import lombok.AllArgsConstructor;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,18 +23,19 @@ import java.util.List;
 public class OrderManager implements OrderService {
     private OrderDao orderDao;
     private ModelMapperService modelMapperService;
+    private MessageSource messageSource;
 
     @Override
     public DataResult<List<ListOrderResponse>> getAll() {
-        return new SuccessDataResult<>(orderDao.getAll(), "Siparişler başarılı bir şekilde listelendi.");
+        return new SuccessDataResult<>(orderDao.getAll(), messageSource.getMessage("successListOrder",null, LocaleContextHolder.getLocale()));
     }
 
     @Override
     public DataResult<OrderDetailResponse> getById(Long id) {
         if (orderDao.getOneOrder(id) == null) {
-            return new ErrorDataResult<>(orderDao.getOneOrder(id), "Sipariş bulunamadı.");
+            return new ErrorDataResult<>(orderDao.getOneOrder(id), messageSource.getMessage("errorOneOrder",null, LocaleContextHolder.getLocale()));
         }
-        return new SuccessDataResult<>(orderDao.getOneOrder(id), "Sipariş başarılı bir şekilde listelendi.");
+        return new SuccessDataResult<>(orderDao.getOneOrder(id), messageSource.getMessage("successOneOrder",null, LocaleContextHolder.getLocale()));
     }
 
     @Override
@@ -44,6 +47,6 @@ public class OrderManager implements OrderService {
 
         AddOrderResponse addOrderResponse = this.modelMapperService.getMapper().map(order, AddOrderResponse.class);
 
-        return new SuccessDataResult<>(addOrderResponse, "Sipariş başarılı bir şekild eklendi.");
+        return new SuccessDataResult<>(addOrderResponse, messageSource.getMessage("successAddOrder",null, LocaleContextHolder.getLocale()));
     }
 }
