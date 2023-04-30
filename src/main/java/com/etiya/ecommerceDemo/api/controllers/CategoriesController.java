@@ -2,9 +2,11 @@ package com.etiya.ecommerceDemo.api.controllers;
 
 import com.etiya.ecommerceDemo.business.abstracts.CategoryService;
 import com.etiya.ecommerceDemo.business.dtos.requests.category.AddCategoryRequest;
+import com.etiya.ecommerceDemo.business.dtos.requests.category.UpdateCategoryRequest;
 import com.etiya.ecommerceDemo.business.dtos.responses.category.AddCategoryResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.category.CategoryDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.category.ListCategoryResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.category.UpdateCategoryResponse;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -32,5 +34,10 @@ public class CategoriesController {
     @PostMapping
     public DataResult<AddCategoryResponse> addCategory(@RequestBody @Valid AddCategoryRequest addCategoryRequest) throws Exception {
         return categoryService.addCategory(addCategoryRequest);
+    }
+
+    @PutMapping("/{id}")
+    public DataResult<UpdateCategoryResponse> updateCategory(@RequestBody @Valid UpdateCategoryRequest updateCategoryRequest, @PathVariable Long id) throws Exception {
+        return categoryService.updateCategory(updateCategoryRequest, id);
     }
 }

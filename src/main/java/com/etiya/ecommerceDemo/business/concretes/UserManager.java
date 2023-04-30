@@ -2,8 +2,10 @@ package com.etiya.ecommerceDemo.business.concretes;
 
 import com.etiya.ecommerceDemo.business.abstracts.UserService;
 import com.etiya.ecommerceDemo.business.dtos.requests.user.AddUserRequest;
+import com.etiya.ecommerceDemo.business.dtos.requests.user.UpdateUserRequest;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.AddUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.ListUserResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.user.UpdateUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
 import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
@@ -53,5 +55,20 @@ public class UserManager implements UserService {
         AddUserResponse addUserResponse = this.modelMapperService.getMapper().map(user, AddUserResponse.class);
 
         return new SuccessDataResult<>(addUserResponse, messageSource.getMessage("successAddUser", null, LocaleContextHolder.getLocale()));
+    }
+
+    @Override
+    public DataResult<UpdateUserResponse> updateUser(UpdateUserRequest updateUserRequest, Long id) {
+        if (!userDao.existsById(id)) {
+            throw new BusinessException(messageSource.getMessage("errorOneUser", null, LocaleContextHolder.getLocale()));
+        }
+
+        User user = this.modelMapperService.getMapper().map(updateUserRequest, User.class);
+        user.setId(id);
+        userDao.save(user);
+
+        UpdateUserResponse updateUserResponse = this.modelMapperService.getMapper().map(user, UpdateUserResponse.class);
+
+        return new SuccessDataResult<>(updateUserResponse, messageSource.getMessage("successUpdateUser", null, LocaleContextHolder.getLocale()));
     }
 }

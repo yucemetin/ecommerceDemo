@@ -9,8 +9,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDetailResponse {
-
+public class UpdateOrderResponse {
     private Long id;
     private Date orderDate;
     private Long userId;
