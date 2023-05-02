@@ -36,8 +36,8 @@ public class UsersController {
         return userService.addUser(addUserRequest);
     }
 
-    @PutMapping("/{id}")
-    public DataResult<UpdateUserResponse> updateUser(@RequestBody @Valid UpdateUserRequest updateUserRequest, @PathVariable Long id) {
-        return userService.updateUser(updateUserRequest, id);
+    @PutMapping("")
+    public DataResult<UpdateUserResponse> updateUser(@RequestBody @Valid UpdateUserRequest updateUserRequest) {
+        return userService.updateUser(updateUserRequest);
     }
 }

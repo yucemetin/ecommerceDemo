@@ -1,6 +1,7 @@
 package com.etiya.ecommerceDemo.business.concretes;
 
 import com.etiya.ecommerceDemo.business.abstracts.OrderService;
+import com.etiya.ecommerceDemo.business.abstracts.UserService;
 import com.etiya.ecommerceDemo.business.constants.Messages;
 import com.etiya.ecommerceDemo.business.dtos.requests.order.AddOrderRequest;
 import com.etiya.ecommerceDemo.business.dtos.requests.order.UpdateOrderRequest;
@@ -8,10 +9,13 @@ import com.etiya.ecommerceDemo.business.dtos.responses.order.AddOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.ListOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.OrderDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.UpdateOrderResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
+import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.Order;
+import com.etiya.ecommerceDemo.entities.concretes.User;
 import com.etiya.ecommerceDemo.repositories.abstracts.OrderDao;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -26,6 +30,7 @@ public class OrderManager implements OrderService {
     private OrderDao orderDao;
     private ModelMapperService modelMapperService;
     private MessageSource messageSource;
+    private UserService userService;
 
     @Override
     public DataResult<List<ListOrderResponse>> getAll() {
@@ -52,13 +57,12 @@ public class OrderManager implements OrderService {
     }
 
     @Override
-    public DataResult<UpdateOrderResponse> updateOrder(UpdateOrderRequest updateOrderRequest, Long id) throws Exception {
+    public DataResult<UpdateOrderResponse> updateOrder(UpdateOrderRequest updateOrderRequest) {
 
-        checkIfOrderIdExists(id);
+        checkIfOrderIdExists(updateOrderRequest.getId());
 
-        Order order = this.modelMapperService.getMapper().map(updateOrderRequest, Order.class);
+        Order order = modelMapperService.getMapper().map(updateOrderRequest, Order.class);
 
-        order.setId(id);
         orderDao.save(order);
 
         UpdateOrderResponse updateOrderResponse = this.modelMapperService.getMapper().map(order, UpdateOrderResponse.class);
@@ -66,9 +70,9 @@ public class OrderManager implements OrderService {
         return new SuccessDataResult<>(updateOrderResponse, messageSource.getMessage(Messages.Order.successUpdateOrder, null, LocaleContextHolder.getLocale()));
     }
 
-    public void checkIfOrderIdExists(Long id) throws Exception {
+    public void checkIfOrderIdExists(Long id) {
         if (!orderDao.existsById(id)) {
-            throw new Exception(messageSource.getMessage(Messages.Order.errorOneOrder, null, LocaleContextHolder.getLocale()));
+            throw new BusinessException(messageSource.getMessage(Messages.Order.errorOneOrder, null, LocaleContextHolder.getLocale()));
         }
     }
 }

@@ -18,5 +18,7 @@ public interface CategoryService {
 
     DataResult<AddCategoryResponse> addCategory(AddCategoryRequest addCategoryRequest) throws Exception;
 
-    DataResult<UpdateCategoryResponse> updateCategory(UpdateCategoryRequest updateCategoryRequest, Long id) throws Exception;
+    DataResult<UpdateCategoryResponse> updateCategory(UpdateCategoryRequest updateCategoryRequest) throws Exception;
+
+    void checkIfCategoryIdExists(Long id) throws Exception;
 }

@@ -55,12 +55,13 @@ public class UserManager implements UserService {
     }
 
     @Override
-    public DataResult<UpdateUserResponse> updateUser(UpdateUserRequest updateUserRequest, Long id) {
+    public DataResult<UpdateUserResponse> updateUser(UpdateUserRequest updateUserRequest) {
 
-        checkIfUserIdExists(id);
+        checkIfUserIdExists(updateUserRequest.getId());
+        checkIfEmailExists(updateUserRequest.getEmail());
 
-        User user = this.modelMapperService.getMapper().map(updateUserRequest, User.class);
-        user.setId(id);
+        User user = modelMapperService.getMapper().map(updateUserRequest, User.class);
+
         userDao.save(user);
 
         UpdateUserResponse updateUserResponse = this.modelMapperService.getMapper().map(user, UpdateUserResponse.class);

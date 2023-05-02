@@ -32,12 +32,12 @@ public class ProductsController {
     }
 
     @PostMapping
-    public DataResult<AddProductResponse> addProduct(@RequestBody AddProductRequest addProductRequest) {
+    public DataResult<AddProductResponse> addProduct(@RequestBody AddProductRequest addProductRequest) throws Exception {
         return productService.addProduct(addProductRequest);
     }
 
-    @PutMapping("/{id}")
-    public DataResult<UpdateProductResponse> updateProduct(@RequestBody @Valid UpdateProductRequest updateProductRequest, @PathVariable Long id) throws Exception {
-        return productService.updateProduct(updateProductRequest, id);
+    @PutMapping("")
+    public DataResult<UpdateProductResponse> updateProduct(@RequestBody @Valid UpdateProductRequest updateProductRequest) throws Exception {
+        return productService.updateProduct(updateProductRequest);
     }
 }

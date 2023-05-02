@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateUserRequest {
 
+    private Long id;
+
     @NotBlank(message = "First name can not be empty")
     private String first_name;
 

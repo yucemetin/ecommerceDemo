@@ -36,8 +36,8 @@ public class OrdersController {
         return orderService.addOrder(addOrderRequest);
     }
 
-    @PutMapping("/{id}")
-    public DataResult<UpdateOrderResponse> updateOrder(@RequestBody @Valid UpdateOrderRequest updateOrderRequest, @PathVariable Long id) throws Exception {
-        return orderService.updateOrder(updateOrderRequest, id);
+    @PutMapping("")
+    public DataResult<UpdateOrderResponse> updateOrder(@RequestBody @Valid UpdateOrderRequest updateOrderRequest) throws Exception {
+        return orderService.updateOrder(updateOrderRequest);
     }
 }

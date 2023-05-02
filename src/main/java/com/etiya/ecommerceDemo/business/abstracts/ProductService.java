@@ -15,7 +15,7 @@ public interface ProductService {
 
     DataResult<ProductDetailResponse> getById(Long id) throws Exception;
 
-    DataResult<AddProductResponse> addProduct(AddProductRequest addProductRequest);
+    DataResult<AddProductResponse> addProduct(AddProductRequest addProductRequest) throws Exception;
 
-    DataResult<UpdateProductResponse> updateProduct(UpdateProductRequest updateProductRequest, Long id) throws Exception;
+    DataResult<UpdateProductResponse> updateProduct(UpdateProductRequest updateProductRequest) throws Exception;
 }

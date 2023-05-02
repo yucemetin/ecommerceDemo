@@ -36,8 +36,8 @@ public class CategoriesController {
         return categoryService.addCategory(addCategoryRequest);
     }
 
-    @PutMapping("/{id}")
-    public DataResult<UpdateCategoryResponse> updateCategory(@RequestBody @Valid UpdateCategoryRequest updateCategoryRequest, @PathVariable Long id) throws Exception {
-        return categoryService.updateCategory(updateCategoryRequest, id);
+    @PutMapping("")
+    public DataResult<UpdateCategoryResponse> updateCategory(@RequestBody @Valid UpdateCategoryRequest updateCategoryRequest) throws Exception {
+        return categoryService.updateCategory(updateCategoryRequest);
     }
 }

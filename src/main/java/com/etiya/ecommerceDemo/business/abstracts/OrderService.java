@@ -17,5 +17,5 @@ public interface OrderService {
 
     DataResult<AddOrderResponse> addOrder(AddOrderRequest addOrderRequest);
 
-    DataResult<UpdateOrderResponse> updateOrder(UpdateOrderRequest updateOrderRequest, Long id) throws Exception;
+    DataResult<UpdateOrderResponse> updateOrder(UpdateOrderRequest updateOrderRequest) throws Exception;
 }

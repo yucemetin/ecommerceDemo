@@ -17,5 +17,5 @@ public interface SupplierService {
 
     DataResult<AddSupplierResponse> addSupplier(AddSupplierRequest addSupplierRequest) throws Exception;
 
-    DataResult<UpdateSupplierResponse> updateSupplier(UpdateSupplierRequest updateSupplierRequest, Long id) throws Exception;
+    DataResult<UpdateSupplierResponse> updateSupplier(UpdateSupplierRequest updateSupplierRequest) throws Exception;
 }

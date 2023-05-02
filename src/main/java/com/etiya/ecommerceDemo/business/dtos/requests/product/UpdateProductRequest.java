@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UpdateProductRequest {
 
+    private Long id;
     @NotEmpty(message = "Product name can not be empty!")
     private String name;
 

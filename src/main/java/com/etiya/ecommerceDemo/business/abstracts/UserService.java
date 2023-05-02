@@ -17,5 +17,5 @@ public interface UserService {
 
     DataResult<AddUserResponse> addUser(AddUserRequest addUserRequest);
 
-    DataResult<UpdateUserResponse> updateUser(UpdateUserRequest updateUserRequest, Long id);
+    DataResult<UpdateUserResponse> updateUser(UpdateUserRequest updateUserRequest);
 }

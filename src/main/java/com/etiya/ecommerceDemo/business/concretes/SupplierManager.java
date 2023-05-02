@@ -8,6 +8,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.supplier.AddSupplierRespo
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.ListSupplierResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.SupplierDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.UpdateSupplierResponse;
+import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
@@ -41,7 +42,7 @@ public class SupplierManager implements SupplierService {
     }
 
     @Override
-    public DataResult<AddSupplierResponse> addSupplier(AddSupplierRequest addSupplierRequest) throws Exception {
+    public DataResult<AddSupplierResponse> addSupplier(AddSupplierRequest addSupplierRequest) {
 
         checkIfSupplierNameExists(addSupplierRequest.getSupplierName());
 
@@ -54,13 +55,12 @@ public class SupplierManager implements SupplierService {
     }
 
     @Override
-    public DataResult<UpdateSupplierResponse> updateSupplier(UpdateSupplierRequest updateSupplierRequest, Long id) throws Exception {
+    public DataResult<UpdateSupplierResponse> updateSupplier(UpdateSupplierRequest updateSupplierRequest) {
 
-        checkIfSupplierIdExists(id);
+        checkIfSupplierIdExists(updateSupplierRequest.getId());
         checkIfSupplierNameExists(updateSupplierRequest.getSupplierName());
 
-        Supplier supplier = this.modelMapperService.getMapper().map(updateSupplierRequest, Supplier.class);
-        supplier.setId(id);
+        Supplier supplier = modelMapperService.getMapper().map(updateSupplierRequest, Supplier.class);
         supplierDao.save(supplier);
 
         UpdateSupplierResponse updateSupplierResponse = this.modelMapperService.getMapper().map(supplier, UpdateSupplierResponse.class);
@@ -69,15 +69,15 @@ public class SupplierManager implements SupplierService {
         return new SuccessDataResult<>(updateSupplierResponse, messageSource.getMessage(Messages.Supplier.successUpdateSupplier, null, LocaleContextHolder.getLocale()));
     }
 
-    public void checkIfSupplierIdExists(Long id) throws Exception {
+    public void checkIfSupplierIdExists(Long id) {
         if (!supplierDao.existsById(id)) {
-            throw new Exception(messageSource.getMessage(Messages.Supplier.errorOneSupplier, null, LocaleContextHolder.getLocale()));
+            throw new BusinessException(messageSource.getMessage(Messages.Supplier.errorOneSupplier, null, LocaleContextHolder.getLocale()));
         }
     }
 
-    public void checkIfSupplierNameExists(String supplierName) throws Exception {
+    public void checkIfSupplierNameExists(String supplierName) {
         if (supplierDao.existsSupplierBySupplierName(supplierName)) {
-            throw new Exception(messageSource.getMessage(Messages.Supplier.existsSupplierName, null, LocaleContextHolder.getLocale()));
+            throw new BusinessException(messageSource.getMessage(Messages.Supplier.existsSupplierName, null, LocaleContextHolder.getLocale()));
         }
     }
 }

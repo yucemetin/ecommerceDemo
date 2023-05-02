@@ -35,8 +35,8 @@ public class SuppliersController {
         return supplierService.addSupplier(addSupplierRequest);
     }
 
-    @PutMapping("/{id}")
-    public DataResult<UpdateSupplierResponse> updateSupplier(@RequestBody @Valid UpdateSupplierRequest updateSupplierRequest, @PathVariable long id) throws Exception {
-        return supplierService.updateSupplier(updateSupplierRequest, id);
+    @PutMapping("")
+    public DataResult<UpdateSupplierResponse> updateSupplier(@RequestBody @Valid UpdateSupplierRequest updateSupplierRequest) throws Exception {
+        return supplierService.updateSupplier(updateSupplierRequest);
     }
 }

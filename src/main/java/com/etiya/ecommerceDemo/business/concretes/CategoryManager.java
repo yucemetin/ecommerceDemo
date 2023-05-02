@@ -57,13 +57,12 @@ public class CategoryManager implements CategoryService {
     }
 
     @Override
-    public DataResult<UpdateCategoryResponse> updateCategory(UpdateCategoryRequest updateCategoryRequest, Long id) throws Exception {
+    public DataResult<UpdateCategoryResponse> updateCategory(UpdateCategoryRequest updateCategoryRequest) {
 
+        checkIfCategoryIdExists(updateCategoryRequest.getId());
         checkIfCategoryNameExists(updateCategoryRequest.getName());
-        checkIfCategoryIdExists(id);
 
-        Category category = this.modelMapperService.getMapper().map(updateCategoryRequest, Category.class);
-        category.setId(id);
+        Category category = modelMapperService.getMapper().map(updateCategoryRequest, Category.class);
         categoryDao.save(category);
 
         UpdateCategoryResponse updateCategoryResponse = this.modelMapperService.getMapper().map(category, UpdateCategoryResponse.class);
@@ -71,15 +70,15 @@ public class CategoryManager implements CategoryService {
         return new SuccessDataResult<>(updateCategoryResponse, messageSource.getMessage(Messages.Category.successUpdateCategory, null, LocaleContextHolder.getLocale()));
     }
 
-    private void checkIfCategoryNameExists(String categoryName) {
+    public void checkIfCategoryNameExists(String categoryName) {
         if (categoryDao.existsCategoriesByName(categoryName)) {
             throw new BusinessException(messageSource.getMessage(Messages.Category.existsCategoryName, null, LocaleContextHolder.getLocale()));
         }
     }
 
-    private void checkIfCategoryIdExists(Long id) throws Exception {
+    public void checkIfCategoryIdExists(Long id) {
         if (!categoryDao.existsById(id)) {
-            throw new Exception(messageSource.getMessage(Messages.Category.errorOneCategory, null, LocaleContextHolder.getLocale()));
+            throw new BusinessException(messageSource.getMessage(Messages.Category.errorOneCategory, null, LocaleContextHolder.getLocale()));
         }
     }
 }

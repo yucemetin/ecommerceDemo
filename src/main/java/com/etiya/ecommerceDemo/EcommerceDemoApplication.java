@@ -75,3 +75,5 @@ public class EcommerceDemoApplication {
         return new ErrorDataResult<>(errors, messageSource.getMessage(Messages.Validation.validationError, null, LocaleContextHolder.getLocale()));
     }
 }
+
+// TO-DO update değişmeyen fieldlar için verilen zaten mevcut hatasını düzelt.
