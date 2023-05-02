@@ -1,5 +1,6 @@
 package com.etiya.ecommerceDemo;
 
+import com.etiya.ecommerceDemo.business.constants.Messages;
 import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
 import com.etiya.ecommerceDemo.core.utils.result.ErrorDataResult;
 import com.etiya.ecommerceDemo.core.utils.result.ErrorResult;
@@ -71,6 +72,6 @@ public class EcommerceDemoApplication {
             errors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
 
-        return new ErrorDataResult<>(errors, messageSource.getMessage("validationError", null, LocaleContextHolder.getLocale()));
+        return new ErrorDataResult<>(errors, messageSource.getMessage(Messages.Validation.validationError, null, LocaleContextHolder.getLocale()));
     }
 }

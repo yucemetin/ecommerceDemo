@@ -1,6 +1,7 @@
 package com.etiya.ecommerceDemo.business.concretes;
 
 import com.etiya.ecommerceDemo.business.abstracts.CategoryService;
+import com.etiya.ecommerceDemo.business.constants.Messages;
 import com.etiya.ecommerceDemo.business.dtos.requests.category.AddCategoryRequest;
 import com.etiya.ecommerceDemo.business.dtos.requests.category.UpdateCategoryRequest;
 import com.etiya.ecommerceDemo.business.dtos.responses.category.AddCategoryResponse;
@@ -10,7 +11,6 @@ import com.etiya.ecommerceDemo.business.dtos.responses.category.UpdateCategoryRe
 import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
-import com.etiya.ecommerceDemo.core.utils.result.ErrorDataResult;
 import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.Category;
 import com.etiya.ecommerceDemo.repositories.abstracts.CategoryDao;
@@ -31,14 +31,14 @@ public class CategoryManager implements CategoryService {
 
     @Override
     public DataResult<List<ListCategoryResponse>> getAll() {
-        return new SuccessDataResult<>(categoryDao.getAll(), messageSource.getMessage("successListCategory", null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(categoryDao.getAll(), messageSource.getMessage(Messages.Category.successListCategory, null, LocaleContextHolder.getLocale()));
     }
 
     @Override
     public DataResult<CategoryDetailResponse> getById(Long id) throws Exception {
         checkIfCategoryIdExists(id);
 
-        return new SuccessDataResult<>(categoryDao.getCategoryById(id), messageSource.getMessage("successOneCategory", null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(categoryDao.getCategoryById(id), messageSource.getMessage(Messages.Category.successOneCategory, null, LocaleContextHolder.getLocale()));
     }
 
     @Override
@@ -52,7 +52,7 @@ public class CategoryManager implements CategoryService {
 
         AddCategoryResponse addCategoryResponse = this.modelMapperService.getMapper().map(category, AddCategoryResponse.class);
 
-        return new SuccessDataResult<>(addCategoryResponse, messageSource.getMessage("successAddCategory", null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(addCategoryResponse, messageSource.getMessage(Messages.Category.successAddCategory, null, LocaleContextHolder.getLocale()));
 
     }
 
@@ -68,18 +68,18 @@ public class CategoryManager implements CategoryService {
 
         UpdateCategoryResponse updateCategoryResponse = this.modelMapperService.getMapper().map(category, UpdateCategoryResponse.class);
 
-        return new SuccessDataResult<>(updateCategoryResponse, messageSource.getMessage("successUpdateCategory", null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(updateCategoryResponse, messageSource.getMessage(Messages.Category.successUpdateCategory, null, LocaleContextHolder.getLocale()));
     }
 
     private void checkIfCategoryNameExists(String categoryName) {
         if (categoryDao.existsCategoriesByName(categoryName)) {
-            throw new BusinessException(messageSource.getMessage("existsCategoryName", null, LocaleContextHolder.getLocale()));
+            throw new BusinessException(messageSource.getMessage(Messages.Category.existsCategoryName, null, LocaleContextHolder.getLocale()));
         }
     }
 
     private void checkIfCategoryIdExists(Long id) throws Exception {
         if (!categoryDao.existsById(id)) {
-            throw new Exception(messageSource.getMessage("errorOneCategory", null, LocaleContextHolder.getLocale()));
+            throw new Exception(messageSource.getMessage(Messages.Category.errorOneCategory, null, LocaleContextHolder.getLocale()));
         }
     }
 }

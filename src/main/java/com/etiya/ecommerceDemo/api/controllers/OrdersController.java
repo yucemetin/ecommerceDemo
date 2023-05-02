@@ -27,7 +27,7 @@ public class OrdersController {
     }
 
     @GetMapping("/{id}")
-    public DataResult<OrderDetailResponse> getById(@PathVariable Long id) {
+    public DataResult<OrderDetailResponse> getById(@PathVariable Long id) throws Exception {
         return orderService.getById(id);
     }
 

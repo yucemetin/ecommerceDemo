@@ -26,7 +26,7 @@ public class SuppliersController {
     }
 
     @GetMapping("/{id}")
-    public DataResult<SupplierDetailResponse> getById(@PathVariable Long id) {
+    public DataResult<SupplierDetailResponse> getById(@PathVariable Long id) throws Exception {
         return supplierService.getById(id);
     }
 

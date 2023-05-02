@@ -1,6 +1,7 @@
 package com.etiya.ecommerceDemo.business.concretes;
 
 import com.etiya.ecommerceDemo.business.abstracts.ProductService;
+import com.etiya.ecommerceDemo.business.constants.Messages;
 import com.etiya.ecommerceDemo.business.dtos.requests.product.AddProductRequest;
 import com.etiya.ecommerceDemo.business.dtos.requests.product.UpdateProductRequest;
 import com.etiya.ecommerceDemo.business.dtos.responses.product.AddProductResponse;
@@ -29,14 +30,14 @@ public class ProductManager implements ProductService {
 
     @Override
     public DataResult<List<ListProductResponse>> getAll() {
-        return new SuccessDataResult<>(productDao.getAll(), messageSource.getMessage("successListProduct", null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(productDao.getAll(), messageSource.getMessage(Messages.Product.successListProduct, null, LocaleContextHolder.getLocale()));
     }
 
     @Override
     public DataResult<ProductDetailResponse> getById(Long id) throws Exception {
         checkIfProductIdExists(id);
 
-        return new SuccessDataResult<>(productDao.getProductById(id), messageSource.getMessage("successOneProduct", null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(productDao.getProductById(id), messageSource.getMessage(Messages.Product.successOneProduct, null, LocaleContextHolder.getLocale()));
     }
 
     @Override
@@ -46,7 +47,7 @@ public class ProductManager implements ProductService {
         productDao.save(product);
 
         AddProductResponse addProductResponse = this.modelMapperService.getMapper().map(product, AddProductResponse.class);
-        return new SuccessDataResult<>(addProductResponse, messageSource.getMessage("successAddProduct", null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(addProductResponse, messageSource.getMessage(Messages.Product.successAddProduct, null, LocaleContextHolder.getLocale()));
     }
 
     @Override
@@ -62,12 +63,12 @@ public class ProductManager implements ProductService {
         UpdateProductResponse updateProductResponse = this.modelMapperService.getMapper().map(product, UpdateProductResponse.class);
 
 
-        return new SuccessDataResult<>(updateProductResponse, messageSource.getMessage("successUpdateProduct", null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(updateProductResponse, messageSource.getMessage(Messages.Product.successUpdateProduct, null, LocaleContextHolder.getLocale()));
     }
 
     public void checkIfProductIdExists(Long id) throws Exception {
         if (!productDao.existsById(id)) {
-            throw new Exception(messageSource.getMessage("errorOneProduct", null, LocaleContextHolder.getLocale()));
+            throw new Exception(messageSource.getMessage(Messages.Product.errorOneProduct, null, LocaleContextHolder.getLocale()));
         }
     }
 }
