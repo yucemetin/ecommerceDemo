@@ -9,6 +9,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.user.ListUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UpdateUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
 import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
+import com.etiya.ecommerceDemo.core.exceptions.NotFoundException;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
@@ -71,7 +72,7 @@ public class UserManager implements UserService {
 
     public void checkIfUserIdExists(Long id) {
         if (!userDao.existsById(id)) {
-            throw new BusinessException(messageSource.getMessage(Messages.User.errorOneUser, null, LocaleContextHolder.getLocale()));
+            throw new NotFoundException(messageSource.getMessage(Messages.User.errorOneUser, null, LocaleContextHolder.getLocale()));
         }
     }
 

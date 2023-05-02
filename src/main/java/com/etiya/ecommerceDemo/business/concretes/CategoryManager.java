@@ -9,6 +9,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.category.CategoryDetailRe
 import com.etiya.ecommerceDemo.business.dtos.responses.category.ListCategoryResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.category.UpdateCategoryResponse;
 import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
+import com.etiya.ecommerceDemo.core.exceptions.NotFoundException;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
@@ -78,7 +79,7 @@ public class CategoryManager implements CategoryService {
 
     public void checkIfCategoryIdExists(Long id) {
         if (!categoryDao.existsById(id)) {
-            throw new BusinessException(messageSource.getMessage(Messages.Category.errorOneCategory, null, LocaleContextHolder.getLocale()));
+            throw new NotFoundException(messageSource.getMessage(Messages.Category.errorOneCategory, null, LocaleContextHolder.getLocale()));
         }
     }
 }

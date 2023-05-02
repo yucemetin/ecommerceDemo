@@ -2,6 +2,7 @@ package com.etiya.ecommerceDemo;
 
 import com.etiya.ecommerceDemo.business.constants.Messages;
 import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
+import com.etiya.ecommerceDemo.core.exceptions.NotFoundException;
 import com.etiya.ecommerceDemo.core.utils.result.ErrorDataResult;
 import com.etiya.ecommerceDemo.core.utils.result.ErrorResult;
 import com.etiya.ecommerceDemo.core.utils.result.Result;
@@ -74,6 +75,14 @@ public class EcommerceDemoApplication {
 
         return new ErrorDataResult<>(errors, messageSource.getMessage(Messages.Validation.validationError, null, LocaleContextHolder.getLocale()));
     }
+
+    @ExceptionHandler({NotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Result handleNotFoundException(NotFoundException exception) {
+        return new ErrorResult(exception.getMessage());
+    }
+
+
 }
 
 // TO-DO update değişmeyen fieldlar için verilen zaten mevcut hatasını düzelt.

@@ -11,6 +11,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.order.OrderDetailResponse
 import com.etiya.ecommerceDemo.business.dtos.responses.order.UpdateOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
 import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
+import com.etiya.ecommerceDemo.core.exceptions.NotFoundException;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
@@ -72,7 +73,7 @@ public class OrderManager implements OrderService {
 
     public void checkIfOrderIdExists(Long id) {
         if (!orderDao.existsById(id)) {
-            throw new BusinessException(messageSource.getMessage(Messages.Order.errorOneOrder, null, LocaleContextHolder.getLocale()));
+            throw new NotFoundException(messageSource.getMessage(Messages.Order.errorOneOrder, null, LocaleContextHolder.getLocale()));
         }
     }
 }

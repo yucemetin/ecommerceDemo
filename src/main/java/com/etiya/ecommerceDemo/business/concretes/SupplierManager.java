@@ -9,6 +9,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.supplier.ListSupplierResp
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.SupplierDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.UpdateSupplierResponse;
 import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
+import com.etiya.ecommerceDemo.core.exceptions.NotFoundException;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
@@ -71,7 +72,7 @@ public class SupplierManager implements SupplierService {
 
     public void checkIfSupplierIdExists(Long id) {
         if (!supplierDao.existsById(id)) {
-            throw new BusinessException(messageSource.getMessage(Messages.Supplier.errorOneSupplier, null, LocaleContextHolder.getLocale()));
+            throw new NotFoundException(messageSource.getMessage(Messages.Supplier.errorOneSupplier, null, LocaleContextHolder.getLocale()));
         }
     }
 

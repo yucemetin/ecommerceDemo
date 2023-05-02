@@ -11,6 +11,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.product.ListProductRespon
 import com.etiya.ecommerceDemo.business.dtos.responses.product.ProductDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.product.UpdateProductResponse;
 import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
+import com.etiya.ecommerceDemo.core.exceptions.NotFoundException;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
@@ -74,7 +75,7 @@ public class ProductManager implements ProductService {
 
     public void checkIfProductIdExists(Long id) {
         if (!productDao.existsById(id)) {
-            throw new BusinessException(messageSource.getMessage(Messages.Product.errorOneProduct, null, LocaleContextHolder.getLocale()));
+            throw new NotFoundException(messageSource.getMessage(Messages.Product.errorOneProduct, null, LocaleContextHolder.getLocale()));
         }
     }
 }
