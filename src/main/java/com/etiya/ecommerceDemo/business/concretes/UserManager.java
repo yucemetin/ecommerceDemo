@@ -70,6 +70,13 @@ public class UserManager implements UserService {
         return new SuccessDataResult<>(updateUserResponse, messageSource.getMessage(Messages.User.successUpdateUser, null, LocaleContextHolder.getLocale()));
     }
 
+    public boolean checkIfUserIdExistsWithReturn(Long id) {
+        if (userDao.existsById(id)) {
+            return true;
+        }
+        return false;
+    }
+
     public void checkIfUserIdExists(Long id) {
         if (!userDao.existsById(id)) {
             throw new NotFoundException(messageSource.getMessage(Messages.User.errorOneUser, null, LocaleContextHolder.getLocale()));

@@ -9,14 +9,11 @@ import com.etiya.ecommerceDemo.business.dtos.responses.order.AddOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.ListOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.OrderDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.UpdateOrderResponse;
-import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
-import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
 import com.etiya.ecommerceDemo.core.exceptions.NotFoundException;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.Order;
-import com.etiya.ecommerceDemo.entities.concretes.User;
 import com.etiya.ecommerceDemo.repositories.abstracts.OrderDao;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -47,6 +44,8 @@ public class OrderManager implements OrderService {
 
     @Override
     public DataResult<AddOrderResponse> addOrder(AddOrderRequest addOrderRequest) {
+
+        userService.checkIfUserIdExists(addOrderRequest.getUserId());
 
         Order order = this.modelMapperService.getMapper().map(addOrderRequest, Order.class);
 

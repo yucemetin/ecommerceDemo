@@ -18,4 +18,8 @@ public interface UserService {
     DataResult<AddUserResponse> addUser(AddUserRequest addUserRequest);
 
     DataResult<UpdateUserResponse> updateUser(UpdateUserRequest updateUserRequest);
+
+    boolean checkIfUserIdExistsWithReturn(Long id);
+
+    void checkIfUserIdExists(Long id);
 }
