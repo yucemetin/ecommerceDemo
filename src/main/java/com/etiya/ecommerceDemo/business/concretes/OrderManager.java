@@ -33,10 +33,9 @@ public class OrderManager implements OrderService {
     }
 
     @Override
-    public DataResult<OrderDetailResponse> getById(Long id) {
-        if (orderDao.getOneOrder(id) == null) {
-            return new ErrorDataResult<>(orderDao.getOneOrder(id), messageSource.getMessage("errorOneOrder", null, LocaleContextHolder.getLocale()));
-        }
+    public DataResult<OrderDetailResponse> getById(Long id) throws Exception {
+        checkIfOrderIdExists(id);
+
         return new SuccessDataResult<>(orderDao.getOneOrder(id), messageSource.getMessage("successOneOrder", null, LocaleContextHolder.getLocale()));
     }
 
@@ -55,17 +54,21 @@ public class OrderManager implements OrderService {
     @Override
     public DataResult<UpdateOrderResponse> updateOrder(UpdateOrderRequest updateOrderRequest, Long id) throws Exception {
 
-        if (!orderDao.existsById(id)) {
-            throw new Exception(messageSource.getMessage("errorOneOrder", null, LocaleContextHolder.getLocale()));
-        }
+        checkIfOrderIdExists(id);
 
         Order order = this.modelMapperService.getMapper().map(updateOrderRequest, Order.class);
+
         order.setId(id);
-        System.out.println(order);
         orderDao.save(order);
 
         UpdateOrderResponse updateOrderResponse = this.modelMapperService.getMapper().map(order, UpdateOrderResponse.class);
 
         return new SuccessDataResult<>(updateOrderResponse, messageSource.getMessage("successUpdateOrder", null, LocaleContextHolder.getLocale()));
+    }
+
+    public void checkIfOrderIdExists(Long id) throws Exception {
+        if (!orderDao.existsById(id)) {
+            throw new Exception(messageSource.getMessage("errorOneOrder", null, LocaleContextHolder.getLocale()));
+        }
     }
 }

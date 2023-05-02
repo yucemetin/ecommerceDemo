@@ -14,7 +14,7 @@ public interface CategoryService {
 
     DataResult<List<ListCategoryResponse>> getAll();
 
-    DataResult<CategoryDetailResponse> getById(Long id);
+    DataResult<CategoryDetailResponse> getById(Long id) throws Exception;
 
     DataResult<AddCategoryResponse> addCategory(AddCategoryRequest addCategoryRequest) throws Exception;
 

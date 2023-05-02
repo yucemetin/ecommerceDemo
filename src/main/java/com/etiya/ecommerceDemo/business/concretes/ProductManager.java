@@ -33,10 +33,9 @@ public class ProductManager implements ProductService {
     }
 
     @Override
-    public DataResult<ProductDetailResponse> getById(Long id) {
-        if (productDao.getProductById(id) == null) {
-            return new SuccessDataResult<>(productDao.getProductById(id), messageSource.getMessage("errorOneProduct", null, LocaleContextHolder.getLocale()));
-        }
+    public DataResult<ProductDetailResponse> getById(Long id) throws Exception {
+        checkIfProductIdExists(id);
+
         return new SuccessDataResult<>(productDao.getProductById(id), messageSource.getMessage("successOneProduct", null, LocaleContextHolder.getLocale()));
     }
 
@@ -53,9 +52,7 @@ public class ProductManager implements ProductService {
     @Override
     public DataResult<UpdateProductResponse> updateProduct(UpdateProductRequest updateProductRequest, Long id) throws Exception {
 
-        if (!productDao.existsById(id)) {
-            throw new Exception(messageSource.getMessage("errorOneProduct", null, LocaleContextHolder.getLocale()));
-        }
+        checkIfProductIdExists(id);
 
         Product product = this.modelMapperService.getMapper().map(updateProductRequest, Product.class);
 
@@ -66,5 +63,11 @@ public class ProductManager implements ProductService {
 
 
         return new SuccessDataResult<>(updateProductResponse, messageSource.getMessage("successUpdateProduct", null, LocaleContextHolder.getLocale()));
+    }
+
+    public void checkIfProductIdExists(Long id) throws Exception {
+        if (!productDao.existsById(id)) {
+            throw new Exception(messageSource.getMessage("errorOneProduct", null, LocaleContextHolder.getLocale()));
+        }
     }
 }

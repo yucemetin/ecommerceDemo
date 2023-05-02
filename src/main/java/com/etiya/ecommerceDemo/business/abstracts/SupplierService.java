@@ -13,7 +13,7 @@ import java.util.List;
 public interface SupplierService {
     DataResult<List<ListSupplierResponse>> getAll();
 
-    DataResult<SupplierDetailResponse> getById(Long id);
+    DataResult<SupplierDetailResponse> getById(Long id) throws Exception;
 
     DataResult<AddSupplierResponse> addSupplier(AddSupplierRequest addSupplierRequest) throws Exception;
 

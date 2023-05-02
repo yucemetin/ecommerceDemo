@@ -9,7 +9,6 @@ import com.etiya.ecommerceDemo.business.dtos.responses.supplier.SupplierDetailRe
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.UpdateSupplierResponse;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
-import com.etiya.ecommerceDemo.core.utils.result.ErrorDataResult;
 import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.Supplier;
 import com.etiya.ecommerceDemo.repositories.abstracts.SupplierDao;
@@ -34,18 +33,16 @@ public class SupplierManager implements SupplierService {
     }
 
     @Override
-    public DataResult<SupplierDetailResponse> getById(Long id) {
-        if (supplierDao.getOneSupplierById(id) == null) {
-            return new ErrorDataResult<>(supplierDao.getOneSupplierById(id), messageSource.getMessage("errorOneSupplier", null, LocaleContextHolder.getLocale()));
-        }
+    public DataResult<SupplierDetailResponse> getById(Long id) throws Exception {
+        checkIfSupplierIdExists(id);
+
         return new SuccessDataResult<>(supplierDao.getOneSupplierById(id), messageSource.getMessage("successOneSupplier", null, LocaleContextHolder.getLocale()));
     }
 
     @Override
     public DataResult<AddSupplierResponse> addSupplier(AddSupplierRequest addSupplierRequest) throws Exception {
-        if (supplierDao.existsSupplierBySupplierName(addSupplierRequest.getSupplierName())) {
-            throw new Exception(messageSource.getMessage("existsSupplierName", null, LocaleContextHolder.getLocale()));
-        }
+
+        checkIfSupplierNameExists(addSupplierRequest.getSupplierName());
 
         Supplier supplier = this.modelMapperService.getMapper().map(addSupplierRequest, Supplier.class);
         supplierDao.save(supplier);
@@ -58,9 +55,8 @@ public class SupplierManager implements SupplierService {
     @Override
     public DataResult<UpdateSupplierResponse> updateSupplier(UpdateSupplierRequest updateSupplierRequest, Long id) throws Exception {
 
-        if (!supplierDao.existsById(id)) {
-            throw new Exception(messageSource.getMessage("errorOneSupplier", null, LocaleContextHolder.getLocale()));
-        }
+        checkIfSupplierIdExists(id);
+        checkIfSupplierNameExists(updateSupplierRequest.getSupplierName());
 
         Supplier supplier = this.modelMapperService.getMapper().map(updateSupplierRequest, Supplier.class);
         supplier.setId(id);
@@ -70,5 +66,17 @@ public class SupplierManager implements SupplierService {
 
 
         return new SuccessDataResult<>(updateSupplierResponse, messageSource.getMessage("successUpdateSupplier", null, LocaleContextHolder.getLocale()));
+    }
+
+    public void checkIfSupplierIdExists(Long id) throws Exception {
+        if (!supplierDao.existsById(id)) {
+            throw new Exception(messageSource.getMessage("errorOneSupplier", null, LocaleContextHolder.getLocale()));
+        }
+    }
+
+    public void checkIfSupplierNameExists(String supplierName) throws Exception {
+        if (supplierDao.existsSupplierBySupplierName(supplierName)) {
+            throw new Exception(messageSource.getMessage("existsSupplierName", null, LocaleContextHolder.getLocale()));
+        }
     }
 }

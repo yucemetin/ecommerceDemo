@@ -7,14 +7,13 @@ import com.etiya.ecommerceDemo.business.dtos.responses.product.ListProductRespon
 import com.etiya.ecommerceDemo.business.dtos.responses.product.ProductDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.product.UpdateProductResponse;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
-import com.etiya.ecommerceDemo.entities.concretes.Product;
 
 import java.util.List;
 
 public interface ProductService {
     DataResult<List<ListProductResponse>> getAll();
 
-    DataResult<ProductDetailResponse> getById(Long id);
+    DataResult<ProductDetailResponse> getById(Long id) throws Exception;
 
     DataResult<AddProductResponse> addProduct(AddProductRequest addProductRequest);
 

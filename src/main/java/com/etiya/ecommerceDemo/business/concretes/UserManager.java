@@ -35,9 +35,8 @@ public class UserManager implements UserService {
 
     @Override
     public DataResult<UserDetailResponse> getById(Long id) {
-        if (userDao.getUserById(id) == null) {
-            return new ErrorDataResult<>(userDao.getUserById(id), messageSource.getMessage("errorOneUser", null, LocaleContextHolder.getLocale()));
-        }
+        checkIfUserIdExists(id);
+
         return new SuccessDataResult<>(userDao.getUserById(id), messageSource.getMessage("successOneUser", null, LocaleContextHolder.getLocale()));
 
     }
@@ -45,9 +44,7 @@ public class UserManager implements UserService {
     @Override
     public DataResult<AddUserResponse> addUser(AddUserRequest addUserRequest) {
 
-        if (userDao.existsUserByEmail(addUserRequest.getEmail())) {
-            throw new BusinessException(messageSource.getMessage("existsEmail", null, LocaleContextHolder.getLocale()));
-        }
+        checkIfEmailExists(addUserRequest.getEmail());
 
         User user = modelMapperService.getMapper().map(addUserRequest, User.class);
 
@@ -59,9 +56,8 @@ public class UserManager implements UserService {
 
     @Override
     public DataResult<UpdateUserResponse> updateUser(UpdateUserRequest updateUserRequest, Long id) {
-        if (!userDao.existsById(id)) {
-            throw new BusinessException(messageSource.getMessage("errorOneUser", null, LocaleContextHolder.getLocale()));
-        }
+
+        checkIfUserIdExists(id);
 
         User user = this.modelMapperService.getMapper().map(updateUserRequest, User.class);
         user.setId(id);
@@ -70,5 +66,17 @@ public class UserManager implements UserService {
         UpdateUserResponse updateUserResponse = this.modelMapperService.getMapper().map(user, UpdateUserResponse.class);
 
         return new SuccessDataResult<>(updateUserResponse, messageSource.getMessage("successUpdateUser", null, LocaleContextHolder.getLocale()));
+    }
+
+    public void checkIfUserIdExists(Long id) {
+        if (!userDao.existsById(id)) {
+            throw new BusinessException(messageSource.getMessage("errorOneUser", null, LocaleContextHolder.getLocale()));
+        }
+    }
+
+    public void checkIfEmailExists(String email) {
+        if (userDao.existsUserByEmail(email)) {
+            throw new BusinessException(messageSource.getMessage("existsEmail", null, LocaleContextHolder.getLocale()));
+        }
     }
 }

@@ -10,6 +10,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.category.UpdateCategoryRe
 import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
+import com.etiya.ecommerceDemo.core.utils.result.ErrorDataResult;
 import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.Category;
 import com.etiya.ecommerceDemo.repositories.abstracts.CategoryDao;
@@ -34,19 +35,16 @@ public class CategoryManager implements CategoryService {
     }
 
     @Override
-    public DataResult<CategoryDetailResponse> getById(Long id) {
-        if (categoryDao.getCategoryById(id) == null) {
-            return new SuccessDataResult<>(categoryDao.getCategoryById(id), messageSource.getMessage("errorOneCategory", null, LocaleContextHolder.getLocale()));
-        }
+    public DataResult<CategoryDetailResponse> getById(Long id) throws Exception {
+        checkIfCategoryIdExists(id);
+
         return new SuccessDataResult<>(categoryDao.getCategoryById(id), messageSource.getMessage("successOneCategory", null, LocaleContextHolder.getLocale()));
     }
 
     @Override
     public DataResult<AddCategoryResponse> addCategory(AddCategoryRequest addCategoryRequest) {
 
-        if (categoryDao.existsCategoriesByName(addCategoryRequest.getName())) {
-            throw new BusinessException(messageSource.getMessage("existsCategoryName", null, LocaleContextHolder.getLocale()));
-        }
+        checkIfCategoryNameExists(addCategoryRequest.getName());
 
         Category category = this.modelMapperService.getMapper().map(addCategoryRequest, Category.class);
 
@@ -61,9 +59,8 @@ public class CategoryManager implements CategoryService {
     @Override
     public DataResult<UpdateCategoryResponse> updateCategory(UpdateCategoryRequest updateCategoryRequest, Long id) throws Exception {
 
-        if (!categoryDao.existsById(id)) {
-            throw new Exception(messageSource.getMessage("errorOneCategory", null, LocaleContextHolder.getLocale()));
-        }
+        checkIfCategoryNameExists(updateCategoryRequest.getName());
+        checkIfCategoryIdExists(id);
 
         Category category = this.modelMapperService.getMapper().map(updateCategoryRequest, Category.class);
         category.setId(id);
@@ -72,5 +69,17 @@ public class CategoryManager implements CategoryService {
         UpdateCategoryResponse updateCategoryResponse = this.modelMapperService.getMapper().map(category, UpdateCategoryResponse.class);
 
         return new SuccessDataResult<>(updateCategoryResponse, messageSource.getMessage("successUpdateCategory", null, LocaleContextHolder.getLocale()));
+    }
+
+    private void checkIfCategoryNameExists(String categoryName) {
+        if (categoryDao.existsCategoriesByName(categoryName)) {
+            throw new BusinessException(messageSource.getMessage("existsCategoryName", null, LocaleContextHolder.getLocale()));
+        }
+    }
+
+    private void checkIfCategoryIdExists(Long id) throws Exception {
+        if (!categoryDao.existsById(id)) {
+            throw new Exception(messageSource.getMessage("errorOneCategory", null, LocaleContextHolder.getLocale()));
+        }
     }
 }

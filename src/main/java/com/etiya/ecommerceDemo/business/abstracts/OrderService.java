@@ -13,7 +13,7 @@ import java.util.List;
 public interface OrderService {
     DataResult<List<ListOrderResponse>> getAll();
 
-    DataResult<OrderDetailResponse> getById(Long id);
+    DataResult<OrderDetailResponse> getById(Long id) throws Exception;
 
     DataResult<AddOrderResponse> addOrder(AddOrderRequest addOrderRequest);
 
