@@ -12,9 +12,9 @@ import java.util.Date;
 @AllArgsConstructor
 public class AddOrderRequest {
 
-    @NotEmpty(message = "Order date can not be empty")
+    @NotEmpty(message = "{orderDateRequire}")
     private Date orderDate;
 
-    @NotEmpty(message = "User can not be empty")
+    @NotEmpty(message = "{userRequire}")
     private Long userId;
 }

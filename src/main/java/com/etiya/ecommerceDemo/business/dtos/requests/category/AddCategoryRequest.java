@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AddCategoryRequest {
 
-    @NotEmpty(message = "Category name can not be empty")
+    @NotEmpty(message = "{categoryNameRequire}")
     private String name;
 }

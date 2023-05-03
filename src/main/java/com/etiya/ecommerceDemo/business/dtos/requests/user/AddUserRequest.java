@@ -9,16 +9,16 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class AddUserRequest {
-    @NotBlank(message = "First name can not be empty")
+    @NotBlank(message = "{firstNameRequire}")
     private String first_name;
 
-    @NotBlank(message = "Last name can not be empty")
+    @NotBlank(message = "{lastNameRequire}")
     private String last_name;
 
     @Email
-    @NotEmpty(message = "Email can not be empty")
+    @NotEmpty(message = "{emailRequire}")
     private String email;
 
-    @NotEmpty(message = "Password can not be empty")
+    @NotEmpty(message = "{passwordRequire}")
     private String password;
 }

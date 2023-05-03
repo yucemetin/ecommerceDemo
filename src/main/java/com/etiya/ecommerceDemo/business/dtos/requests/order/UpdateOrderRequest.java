@@ -1,6 +1,6 @@
 package com.etiya.ecommerceDemo.business.dtos.requests.order;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +12,6 @@ public class UpdateOrderRequest {
 
     private Long id;
 
-    @NotBlank(message = "User can not be empty")
+    @NotEmpty(message = "{userRequire}")
     private Long userId;
 }

@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 public class UpdateSupplierRequest {
 
     private Long id;
-    @NotEmpty(message = "Supplier name can not be empty")
+    @NotEmpty(message = "{supplierNameRequire}")
     private String supplierName;
 }

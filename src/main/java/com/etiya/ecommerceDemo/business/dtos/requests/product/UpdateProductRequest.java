@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class UpdateProductRequest {
 
     private Long id;
-    @NotEmpty(message = "Product name can not be empty!")
+    @NotEmpty(message = "{productNameRequire}")
     private String name;
 
     private double unitPrice;

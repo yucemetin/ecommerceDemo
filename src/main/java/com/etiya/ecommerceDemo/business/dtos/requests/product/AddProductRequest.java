@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AddProductRequest {
 
-    @NotEmpty(message = "Product name can not be empty!")
+    @NotEmpty(message = "{productNameRequire}")
     private String name;
 
-    @NotEmpty(message = "Unit price can not be empty!")
+    @NotEmpty(message = "{unitPriceRequire}")
     private double unitPrice;
 
-    @NotEmpty(message = "Category can not be empty!")
+    @NotEmpty(message = "{categoryIdRequire}")
     private Long categoryId;
 }

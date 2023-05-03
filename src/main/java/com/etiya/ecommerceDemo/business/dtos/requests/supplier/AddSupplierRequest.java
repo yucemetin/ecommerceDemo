@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AddSupplierRequest {
 
-    @NotEmpty(message = "Supplier name can not be empty")
+    @NotEmpty(message = "{supplierNameRequire}")
     private String supplierName;
 }
