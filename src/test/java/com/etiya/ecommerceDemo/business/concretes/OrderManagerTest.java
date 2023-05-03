@@ -11,6 +11,7 @@ import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.User;
 import com.etiya.ecommerceDemo.repositories.abstracts.OrderDao;
+import com.etiya.ecommerceDemo.repositories.abstracts.UserDao;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,7 @@ class OrderManagerTest {
     private OrderDao orderDao;
     private ModelMapperService modelMapperService;
     private MessageSource messageSource;
+    private UserDao userDao;
     private UserManager userManager;
     private OrderManager orderManager;
 
@@ -47,8 +49,10 @@ class OrderManagerTest {
         modelMapperService = new ModelMapperManager(new ModelMapper());
         messageSource = getBundleMessageSource();
         orderDao = mock(OrderDao.class);
+        userDao = mock(UserDao.class);
 
         orderManager = new OrderManager(orderDao, modelMapperService, messageSource, userManager);
+        userManager = new UserManager(userDao, modelMapperService, messageSource);
     }
 
     @AfterEach
@@ -85,7 +89,7 @@ class OrderManagerTest {
 
     @Test
     void addOrder() {
-        when(userManager.checkIfUserIdExistsWithReturn(any())).thenReturn(true);
+        when(userDao.existsById(any())).thenReturn(true);
 
         AddOrderRequest addOrderRequest = new AddOrderRequest(new Date(), 2L);
 
