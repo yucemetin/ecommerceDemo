@@ -9,7 +9,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.product.AddProductRespons
 import com.etiya.ecommerceDemo.business.dtos.responses.product.ListProductResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.product.ProductDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.product.UpdateProductResponse;
-import com.etiya.ecommerceDemo.core.exceptions.NotFoundException;
+import com.etiya.ecommerceDemo.core.exceptions.types.NotFoundException;
 import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
@@ -17,6 +17,8 @@ import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.Product;
 import com.etiya.ecommerceDemo.repositories.abstracts.ProductDao;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +35,11 @@ public class ProductManager implements ProductService {
     @Override
     public DataResult<List<ListProductResponse>> getAll() {
         return new SuccessDataResult<>(productDao.getAll(), messageService.getMessage(Messages.Product.successListProduct));
+    }
+
+    @Override
+    public DataResult<Slice<ListProductResponse>> getAllWithPage(Pageable pageable) {
+        return new SuccessDataResult<>(productDao.getAllWithPage(pageable), messageService.getMessage(Messages.Product.successListProduct));
     }
 
     @Override

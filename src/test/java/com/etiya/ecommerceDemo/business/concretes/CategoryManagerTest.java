@@ -6,8 +6,8 @@ import com.etiya.ecommerceDemo.business.dtos.requests.category.UpdateCategoryReq
 import com.etiya.ecommerceDemo.business.dtos.responses.category.AddCategoryResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.category.ListCategoryResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.category.UpdateCategoryResponse;
-import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
-import com.etiya.ecommerceDemo.core.exceptions.NotFoundException;
+import com.etiya.ecommerceDemo.core.exceptions.types.BusinessException;
+import com.etiya.ecommerceDemo.core.exceptions.types.NotFoundException;
 import com.etiya.ecommerceDemo.core.internationalization.MessageManager;
 import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperManager;

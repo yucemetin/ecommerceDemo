@@ -3,6 +3,8 @@ package com.etiya.ecommerceDemo.repositories.abstracts;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.ListUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
 import com.etiya.ecommerceDemo.entities.concretes.User;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -21,4 +23,9 @@ public interface UserDao extends JpaRepository<User, Long> {
             "  com.etiya.ecommerceDemo.business.dtos.responses.user.ListUserResponse(u.id,u.first_name,u.last_name,u.email,u.password)" +
             " from User u", nativeQuery = false)
     List<ListUserResponse> getAll();
+
+    @Query(value = "select new" +
+            "  com.etiya.ecommerceDemo.business.dtos.responses.user.ListUserResponse(u.id,u.first_name,u.last_name,u.email,u.password)" +
+            " from User u", nativeQuery = false)
+    Slice<ListUserResponse> getAllWithPage(Pageable pageable);
 }

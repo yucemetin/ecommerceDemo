@@ -8,8 +8,8 @@ import com.etiya.ecommerceDemo.business.dtos.responses.user.AddUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.ListUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UpdateUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
-import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
-import com.etiya.ecommerceDemo.core.exceptions.NotFoundException;
+import com.etiya.ecommerceDemo.core.exceptions.types.BusinessException;
+import com.etiya.ecommerceDemo.core.exceptions.types.NotFoundException;
 import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
@@ -17,6 +17,8 @@ import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.User;
 import com.etiya.ecommerceDemo.repositories.abstracts.UserDao;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +33,11 @@ public class UserManager implements UserService {
     @Override
     public DataResult<List<ListUserResponse>> getAll() {
         return new SuccessDataResult<>(userDao.getAll(), messageService.getMessage(Messages.User.successListUser));
+    }
+
+    @Override
+    public DataResult<Slice<ListUserResponse>> getAllWithPage(Pageable pageable) {
+        return new SuccessDataResult<>(userDao.getAllWithPage(pageable), messageService.getMessage(Messages.User.successListUser));
     }
 
     @Override

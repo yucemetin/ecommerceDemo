@@ -7,11 +7,15 @@ import com.etiya.ecommerceDemo.business.dtos.responses.user.ListUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UpdateUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
 public interface UserService {
     DataResult<List<ListUserResponse>> getAll();
+
+    DataResult<Slice<ListUserResponse>> getAllWithPage(Pageable pageable);
 
     DataResult<UserDetailResponse> getById(Long id);
 

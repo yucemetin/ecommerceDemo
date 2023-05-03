@@ -10,6 +10,9 @@ import com.etiya.ecommerceDemo.business.dtos.responses.order.UpdateOrderResponse
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +27,12 @@ public class OrdersController {
     @GetMapping
     public DataResult<List<ListOrderResponse>> getAll() {
         return orderService.getAll();
+    }
+
+    @GetMapping("/page")
+    public DataResult<Slice<ListOrderResponse>> getAllWithPage(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return orderService.getAllWithPage(pageable);
     }
 
     @GetMapping("/{id}")

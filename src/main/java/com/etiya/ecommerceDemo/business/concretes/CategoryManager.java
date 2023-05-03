@@ -8,8 +8,8 @@ import com.etiya.ecommerceDemo.business.dtos.responses.category.AddCategoryRespo
 import com.etiya.ecommerceDemo.business.dtos.responses.category.CategoryDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.category.ListCategoryResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.category.UpdateCategoryResponse;
-import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
-import com.etiya.ecommerceDemo.core.exceptions.NotFoundException;
+import com.etiya.ecommerceDemo.core.exceptions.types.BusinessException;
+import com.etiya.ecommerceDemo.core.exceptions.types.NotFoundException;
 import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
@@ -17,6 +17,8 @@ import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.Category;
 import com.etiya.ecommerceDemo.repositories.abstracts.CategoryDao;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,6 +34,11 @@ public class CategoryManager implements CategoryService {
     @Override
     public DataResult<List<ListCategoryResponse>> getAll() {
         return new SuccessDataResult<>(categoryDao.getAll(), messageService.getMessage(Messages.Category.successListCategory));
+    }
+
+    @Override
+    public DataResult<Slice<ListCategoryResponse>> getAllWithPagination(Pageable pageable) {
+        return new SuccessDataResult<>(categoryDao.getAllWithPage(pageable), messageService.getMessage(Messages.Category.successListCategory));
     }
 
     @Override

@@ -10,6 +10,9 @@ import com.etiya.ecommerceDemo.business.dtos.responses.category.UpdateCategoryRe
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +27,12 @@ public class CategoriesController {
     @GetMapping
     public DataResult<List<ListCategoryResponse>> getAll() {
         return categoryService.getAll();
+    }
+
+    @GetMapping("/page")
+    public DataResult<Slice<ListCategoryResponse>> getAllWithPage(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return categoryService.getAllWithPagination(pageable);
     }
 
     @GetMapping("/{id}")

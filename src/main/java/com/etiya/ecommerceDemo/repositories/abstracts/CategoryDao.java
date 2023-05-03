@@ -3,6 +3,8 @@ package com.etiya.ecommerceDemo.repositories.abstracts;
 import com.etiya.ecommerceDemo.business.dtos.responses.category.CategoryDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.category.ListCategoryResponse;
 import com.etiya.ecommerceDemo.entities.concretes.Category;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -21,4 +23,9 @@ public interface CategoryDao extends JpaRepository<Category, Long> {
             " com.etiya.ecommerceDemo.business.dtos.responses.category.ListCategoryResponse(c.id,c.name)" +
             " from Category c", nativeQuery = false)
     List<ListCategoryResponse> getAll();
+
+    @Query(value = "select new" +
+            " com.etiya.ecommerceDemo.business.dtos.responses.category.ListCategoryResponse(c.id,c.name)" +
+            " from Category c", nativeQuery = false)
+    Slice<ListCategoryResponse> getAllWithPage(Pageable pageable);
 }

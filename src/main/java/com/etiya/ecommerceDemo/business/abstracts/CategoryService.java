@@ -7,12 +7,16 @@ import com.etiya.ecommerceDemo.business.dtos.responses.category.CategoryDetailRe
 import com.etiya.ecommerceDemo.business.dtos.responses.category.ListCategoryResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.category.UpdateCategoryResponse;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
 public interface CategoryService {
 
     DataResult<List<ListCategoryResponse>> getAll();
+
+    DataResult<Slice<ListCategoryResponse>> getAllWithPagination(Pageable pageable);
 
     DataResult<CategoryDetailResponse> getById(Long id) throws Exception;
 

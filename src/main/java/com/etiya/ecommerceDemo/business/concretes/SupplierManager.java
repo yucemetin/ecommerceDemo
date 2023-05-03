@@ -8,8 +8,8 @@ import com.etiya.ecommerceDemo.business.dtos.responses.supplier.AddSupplierRespo
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.ListSupplierResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.SupplierDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.UpdateSupplierResponse;
-import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
-import com.etiya.ecommerceDemo.core.exceptions.NotFoundException;
+import com.etiya.ecommerceDemo.core.exceptions.types.BusinessException;
+import com.etiya.ecommerceDemo.core.exceptions.types.NotFoundException;
 import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
@@ -17,6 +17,8 @@ import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.Supplier;
 import com.etiya.ecommerceDemo.repositories.abstracts.SupplierDao;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,6 +34,11 @@ public class SupplierManager implements SupplierService {
     @Override
     public DataResult<List<ListSupplierResponse>> getAll() {
         return new SuccessDataResult<>(supplierDao.getAll(), messageService.getMessage(Messages.Supplier.successListSupplier));
+    }
+
+    @Override
+    public DataResult<Slice<ListSupplierResponse>> getAllWithPage(Pageable pageable) {
+        return new SuccessDataResult<>(supplierDao.getAllWithPage(pageable), messageService.getMessage(Messages.Supplier.successListSupplier));
     }
 
     @Override

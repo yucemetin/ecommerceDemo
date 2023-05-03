@@ -7,12 +7,15 @@ import com.etiya.ecommerceDemo.business.dtos.responses.product.ListProductRespon
 import com.etiya.ecommerceDemo.business.dtos.responses.product.ProductDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.product.UpdateProductResponse;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
 public interface ProductService {
     DataResult<List<ListProductResponse>> getAll();
 
+    DataResult<Slice<ListProductResponse>> getAllWithPage(Pageable pageable);
     DataResult<ProductDetailResponse> getById(Long id) throws Exception;
 
     DataResult<AddProductResponse> addProduct(AddProductRequest addProductRequest) throws Exception;

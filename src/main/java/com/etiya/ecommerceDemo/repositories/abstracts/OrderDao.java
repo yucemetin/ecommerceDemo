@@ -3,6 +3,8 @@ package com.etiya.ecommerceDemo.repositories.abstracts;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.ListOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.OrderDetailResponse;
 import com.etiya.ecommerceDemo.entities.concretes.Order;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -19,6 +21,11 @@ public interface OrderDao extends JpaRepository<Order, Long> {
             "  com.etiya.ecommerceDemo.business.dtos.responses.order.ListOrderResponse(o.id,o.orderDate,o.user.id)" +
             " from Order o", nativeQuery = false)
     List<ListOrderResponse> getAll();
+
+    @Query(value = "select new" +
+            "  com.etiya.ecommerceDemo.business.dtos.responses.order.ListOrderResponse(o.id,o.orderDate,o.user.id)" +
+            " from Order o", nativeQuery = false)
+    Slice<ListOrderResponse> getAllWithPagination(Pageable pageable);
 
 
 }

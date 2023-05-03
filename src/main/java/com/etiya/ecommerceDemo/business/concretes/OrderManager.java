@@ -9,7 +9,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.order.AddOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.ListOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.OrderDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.UpdateOrderResponse;
-import com.etiya.ecommerceDemo.core.exceptions.NotFoundException;
+import com.etiya.ecommerceDemo.core.exceptions.types.NotFoundException;
 import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
@@ -17,6 +17,8 @@ import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.Order;
 import com.etiya.ecommerceDemo.repositories.abstracts.OrderDao;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,6 +34,11 @@ public class OrderManager implements OrderService {
     @Override
     public DataResult<List<ListOrderResponse>> getAll() {
         return new SuccessDataResult<>(orderDao.getAll(), messageService.getMessage(Messages.Order.successListOrder));
+    }
+
+    @Override
+    public DataResult<Slice<ListOrderResponse>> getAllWithPage(Pageable pageable) {
+        return new SuccessDataResult<>(orderDao.getAllWithPagination(pageable), messageService.getMessage(Messages.Order.successListOrder));
     }
 
     @Override

@@ -10,6 +10,9 @@ import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +27,12 @@ public class UsersController {
     @GetMapping
     public DataResult<List<ListUserResponse>> getAll() {
         return userService.getAll();
+    }
+
+    @GetMapping("/page")
+    public DataResult<Slice<ListUserResponse>> getAll(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return userService.getAllWithPage(pageable);
     }
 
     @GetMapping("/{id}")
