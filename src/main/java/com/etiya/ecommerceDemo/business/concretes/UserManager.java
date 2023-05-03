@@ -10,14 +10,13 @@ import com.etiya.ecommerceDemo.business.dtos.responses.user.UpdateUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
 import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
 import com.etiya.ecommerceDemo.core.exceptions.NotFoundException;
+import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.User;
 import com.etiya.ecommerceDemo.repositories.abstracts.UserDao;
 import lombok.AllArgsConstructor;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,18 +26,18 @@ import java.util.List;
 public class UserManager implements UserService {
     private UserDao userDao;
     private ModelMapperService modelMapperService;
-    private MessageSource messageSource;
+    private MessageService messageService;
 
     @Override
     public DataResult<List<ListUserResponse>> getAll() {
-        return new SuccessDataResult<>(userDao.getAll(), messageSource.getMessage(Messages.User.successListUser, null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(userDao.getAll(), messageService.getMessage(Messages.User.successListUser));
     }
 
     @Override
     public DataResult<UserDetailResponse> getById(Long id) {
         checkIfUserIdExists(id);
 
-        return new SuccessDataResult<>(userDao.getUserById(id), messageSource.getMessage(Messages.User.successOneUser, null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(userDao.getUserById(id), messageService.getMessage(Messages.User.successOneUser));
 
     }
 
@@ -52,7 +51,7 @@ public class UserManager implements UserService {
         userDao.save(user);
         AddUserResponse addUserResponse = this.modelMapperService.getMapper().map(user, AddUserResponse.class);
 
-        return new SuccessDataResult<>(addUserResponse, messageSource.getMessage(Messages.User.successAddUser, null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(addUserResponse, messageService.getMessage(Messages.User.successAddUser));
     }
 
     @Override
@@ -67,25 +66,22 @@ public class UserManager implements UserService {
 
         UpdateUserResponse updateUserResponse = this.modelMapperService.getMapper().map(user, UpdateUserResponse.class);
 
-        return new SuccessDataResult<>(updateUserResponse, messageSource.getMessage(Messages.User.successUpdateUser, null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(updateUserResponse, messageService.getMessage(Messages.User.successUpdateUser));
     }
 
     public boolean checkIfUserIdExistsWithReturn(Long id) {
-        if (userDao.existsById(id)) {
-            return true;
-        }
-        return false;
+        return userDao.existsById(id);
     }
 
     public void checkIfUserIdExists(Long id) {
         if (!userDao.existsById(id)) {
-            throw new NotFoundException(messageSource.getMessage(Messages.User.errorOneUser, null, LocaleContextHolder.getLocale()));
+            throw new NotFoundException(messageService.getMessage(Messages.User.errorOneUser));
         }
     }
 
     public void checkIfEmailExists(String email) {
         if (userDao.existsUserByEmail(email)) {
-            throw new BusinessException(messageSource.getMessage(Messages.User.existsEmail, null, LocaleContextHolder.getLocale()));
+            throw new BusinessException(messageService.getMessage(Messages.User.existsEmail));
         }
     }
 }

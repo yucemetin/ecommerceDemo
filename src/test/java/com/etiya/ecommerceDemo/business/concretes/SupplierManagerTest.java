@@ -6,6 +6,8 @@ import com.etiya.ecommerceDemo.business.dtos.responses.supplier.AddSupplierRespo
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.ListSupplierResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.SupplierDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.UpdateSupplierResponse;
+import com.etiya.ecommerceDemo.core.internationalization.MessageManager;
+import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperManager;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
@@ -31,6 +33,7 @@ class SupplierManagerTest {
     private SupplierDao supplierDao;
     private ModelMapperService modelMapperService;
     private MessageSource messageSource;
+    private MessageService messageService;
 
     private SupplierManager supplierManager;
 
@@ -45,8 +48,9 @@ class SupplierManagerTest {
         modelMapperService = new ModelMapperManager(new ModelMapper());
         messageSource = getBundleMessageSource();
         supplierDao = mock(SupplierDao.class);
+        messageService = new MessageManager(messageSource);
 
-        supplierManager = new SupplierManager(supplierDao, modelMapperService, messageSource);
+        supplierManager = new SupplierManager(supplierDao, modelMapperService, messageService);
     }
 
     @AfterEach

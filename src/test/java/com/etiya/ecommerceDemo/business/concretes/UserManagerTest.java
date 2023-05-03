@@ -7,6 +7,8 @@ import com.etiya.ecommerceDemo.business.dtos.responses.user.AddUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.ListUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UpdateUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
+import com.etiya.ecommerceDemo.core.internationalization.MessageManager;
+import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperManager;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
@@ -17,7 +19,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ class UserManagerTest {
     private UserDao userDao;
     private ModelMapperService modelMapperService;
     private MessageSource messageSource;
+    private MessageService messageService;
 
     private UserManager userManager;
 
@@ -47,8 +49,8 @@ class UserManagerTest {
         modelMapperService = new ModelMapperManager(new ModelMapper());
         messageSource = getBundleMessageSource();
         userDao = mock(UserDao.class);
-
-        userManager = new UserManager(userDao, modelMapperService, messageSource);
+        messageService = new MessageManager(messageSource);
+        userManager = new UserManager(userDao, modelMapperService, messageService);
 
     }
 
@@ -65,7 +67,7 @@ class UserManagerTest {
 
         when(userDao.getAll()).thenReturn(fakeData);
 
-        DataResult<List<ListUserResponse>> fakeResult = new SuccessDataResult<>(fakeData, messageSource.getMessage(Messages.User.successListUser, null, LocaleContextHolder.getLocale()));
+        DataResult<List<ListUserResponse>> fakeResult = new SuccessDataResult<>(fakeData, messageService.getMessage(Messages.User.successListUser));
 
         DataResult<List<ListUserResponse>> expectedResult = userManager.getAll();
 
@@ -77,7 +79,7 @@ class UserManagerTest {
         when(userDao.existsById(any())).thenReturn(true);
         when(userDao.getUserById(1L)).thenReturn(new UserDetailResponse(1L, "Metin", "Yüce", "metin@hotmail.com", "123123"));
 
-        DataResult<UserDetailResponse> actualResult = new SuccessDataResult<>(new UserDetailResponse(1L, "Metin", "Yüce", "metin@hotmail.com", "123123"), messageSource.getMessage(Messages.User.successOneUser, null, LocaleContextHolder.getLocale()));
+        DataResult<UserDetailResponse> actualResult = new SuccessDataResult<>(new UserDetailResponse(1L, "Metin", "Yüce", "metin@hotmail.com", "123123"), messageService.getMessage(Messages.User.successOneUser));
         DataResult<UserDetailResponse> expectedResult = userManager.getById(1L);
 
         assert actualResult.getData().equals(expectedResult.getData());

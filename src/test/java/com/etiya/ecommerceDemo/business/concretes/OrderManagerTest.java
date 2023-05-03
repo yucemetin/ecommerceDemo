@@ -5,6 +5,8 @@ import com.etiya.ecommerceDemo.business.dtos.requests.order.AddOrderRequest;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.AddOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.ListOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.OrderDetailResponse;
+import com.etiya.ecommerceDemo.core.internationalization.MessageManager;
+import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperManager;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
@@ -17,7 +19,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ class OrderManagerTest {
     private ModelMapperService modelMapperService;
     private MessageSource messageSource;
     private UserDao userDao;
+    private MessageService messageService;
     private UserManager userManager;
     private OrderManager orderManager;
 
@@ -48,11 +50,12 @@ class OrderManagerTest {
     void setUp() {
         modelMapperService = new ModelMapperManager(new ModelMapper());
         messageSource = getBundleMessageSource();
+        messageService = new MessageManager(messageSource);
         orderDao = mock(OrderDao.class);
         userDao = mock(UserDao.class);
 
-        orderManager = new OrderManager(orderDao, modelMapperService, messageSource, userManager);
-        userManager = new UserManager(userDao, modelMapperService, messageSource);
+        orderManager = new OrderManager(orderDao, modelMapperService, messageService, userManager);
+        userManager = new UserManager(userDao, modelMapperService, messageService);
     }
 
     @AfterEach
@@ -65,7 +68,7 @@ class OrderManagerTest {
         fakeData.add(new ListOrderResponse(1L, new Date(), 3L));
         fakeData.add(new ListOrderResponse(2L, new Date(), 5L));
 
-        DataResult<List<ListOrderResponse>> fakeResult = new SuccessDataResult<>(fakeData, messageSource.getMessage(Messages.Order.successListOrder, null, LocaleContextHolder.getLocale()));
+        DataResult<List<ListOrderResponse>> fakeResult = new SuccessDataResult<>(fakeData, messageService.getMessage(Messages.Order.successListOrder));
 
         when(orderDao.getAll()).thenReturn(fakeResult.getData());
 
@@ -78,7 +81,7 @@ class OrderManagerTest {
     void getById() throws Exception {
         when(orderDao.existsById(any())).thenReturn(true);
 
-        DataResult<OrderDetailResponse> fakeResult = new SuccessDataResult<>(new OrderDetailResponse(1L, new Date(), 4L), messageSource.getMessage(Messages.Order.successListOrder, null, LocaleContextHolder.getLocale()));
+        DataResult<OrderDetailResponse> fakeResult = new SuccessDataResult<>(new OrderDetailResponse(1L, new Date(), 4L), messageService.getMessage(Messages.Order.successListOrder));
 
         when(orderDao.getOneOrder(1L)).thenReturn(fakeResult.getData());
 

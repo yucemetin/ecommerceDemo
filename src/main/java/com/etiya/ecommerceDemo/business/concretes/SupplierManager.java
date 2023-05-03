@@ -10,14 +10,13 @@ import com.etiya.ecommerceDemo.business.dtos.responses.supplier.SupplierDetailRe
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.UpdateSupplierResponse;
 import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
 import com.etiya.ecommerceDemo.core.exceptions.NotFoundException;
+import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.Supplier;
 import com.etiya.ecommerceDemo.repositories.abstracts.SupplierDao;
 import lombok.AllArgsConstructor;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,18 +27,18 @@ public class SupplierManager implements SupplierService {
 
     private SupplierDao supplierDao;
     private ModelMapperService modelMapperService;
-    private MessageSource messageSource;
+    private MessageService messageService;
 
     @Override
     public DataResult<List<ListSupplierResponse>> getAll() {
-        return new SuccessDataResult<>(supplierDao.getAll(), messageSource.getMessage(Messages.Supplier.successListSupplier, null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(supplierDao.getAll(), messageService.getMessage(Messages.Supplier.successListSupplier));
     }
 
     @Override
     public DataResult<SupplierDetailResponse> getById(Long id) throws Exception {
         checkIfSupplierIdExists(id);
 
-        return new SuccessDataResult<>(supplierDao.getOneSupplierById(id), messageSource.getMessage(Messages.Supplier.successOneSupplier, null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(supplierDao.getOneSupplierById(id), messageService.getMessage(Messages.Supplier.successOneSupplier));
     }
 
     @Override
@@ -52,7 +51,7 @@ public class SupplierManager implements SupplierService {
 
         AddSupplierResponse addSupplierResponse = this.modelMapperService.getMapper().map(supplier, AddSupplierResponse.class);
 
-        return new SuccessDataResult<>(addSupplierResponse, messageSource.getMessage(Messages.Supplier.successAddSupplier, null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(addSupplierResponse, messageService.getMessage(Messages.Supplier.successAddSupplier));
     }
 
     @Override
@@ -67,18 +66,18 @@ public class SupplierManager implements SupplierService {
         UpdateSupplierResponse updateSupplierResponse = this.modelMapperService.getMapper().map(supplier, UpdateSupplierResponse.class);
 
 
-        return new SuccessDataResult<>(updateSupplierResponse, messageSource.getMessage(Messages.Supplier.successUpdateSupplier, null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(updateSupplierResponse, messageService.getMessage(Messages.Supplier.successUpdateSupplier));
     }
 
     public void checkIfSupplierIdExists(Long id) {
         if (!supplierDao.existsById(id)) {
-            throw new NotFoundException(messageSource.getMessage(Messages.Supplier.errorOneSupplier, null, LocaleContextHolder.getLocale()));
+            throw new NotFoundException(messageService.getMessage(Messages.Supplier.errorOneSupplier));
         }
     }
 
     public void checkIfSupplierNameExists(String supplierName) {
         if (supplierDao.existsSupplierBySupplierName(supplierName)) {
-            throw new BusinessException(messageSource.getMessage(Messages.Supplier.existsSupplierName, null, LocaleContextHolder.getLocale()));
+            throw new BusinessException(messageService.getMessage(Messages.Supplier.existsSupplierName));
         }
     }
 }

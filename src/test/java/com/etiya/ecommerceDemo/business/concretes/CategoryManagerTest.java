@@ -8,6 +8,8 @@ import com.etiya.ecommerceDemo.business.dtos.responses.category.ListCategoryResp
 import com.etiya.ecommerceDemo.business.dtos.responses.category.UpdateCategoryResponse;
 import com.etiya.ecommerceDemo.core.exceptions.BusinessException;
 import com.etiya.ecommerceDemo.core.exceptions.NotFoundException;
+import com.etiya.ecommerceDemo.core.internationalization.MessageManager;
+import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperManager;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
@@ -18,7 +20,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ import static org.mockito.Mockito.when;
 class CategoryManagerTest {
     CategoryDao categoryDao;
     ModelMapperService modelMapperService;
+    MessageService messageService;
     MessageSource messageSource;
     CategoryManager categoryManager;
 
@@ -46,8 +48,8 @@ class CategoryManagerTest {
         modelMapperService = new ModelMapperManager(new ModelMapper());
         messageSource = getBundleMessageSource();
         categoryDao = mock(CategoryDao.class);
-
-        categoryManager = new CategoryManager(categoryDao, modelMapperService, messageSource);
+        messageService = new MessageManager(messageSource);
+        categoryManager = new CategoryManager(categoryDao, modelMapperService, messageService);
     }
 
     @AfterEach
@@ -73,7 +75,7 @@ class CategoryManagerTest {
         fakeData.add(new ListCategoryResponse(1L, "Giyim"));
         fakeData.add(new ListCategoryResponse(2L, "Deneme"));
 
-        DataResult<List<ListCategoryResponse>> fakeResult = new SuccessDataResult<>(fakeData, messageSource.getMessage(Messages.Category.successListCategory, null, LocaleContextHolder.getLocale()));
+        DataResult<List<ListCategoryResponse>> fakeResult = new SuccessDataResult<>(fakeData, messageService.getMessage(Messages.Category.successListCategory));
 
         when(categoryDao.getAll()).thenReturn(fakeResult.getData());
 

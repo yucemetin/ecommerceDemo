@@ -10,14 +10,13 @@ import com.etiya.ecommerceDemo.business.dtos.responses.order.ListOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.OrderDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.UpdateOrderResponse;
 import com.etiya.ecommerceDemo.core.exceptions.NotFoundException;
+import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
 import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.entities.concretes.Order;
 import com.etiya.ecommerceDemo.repositories.abstracts.OrderDao;
 import lombok.AllArgsConstructor;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,19 +26,19 @@ import java.util.List;
 public class OrderManager implements OrderService {
     private OrderDao orderDao;
     private ModelMapperService modelMapperService;
-    private MessageSource messageSource;
+    private MessageService messageService;
     private UserService userService;
 
     @Override
     public DataResult<List<ListOrderResponse>> getAll() {
-        return new SuccessDataResult<>(orderDao.getAll(), messageSource.getMessage(Messages.Order.successListOrder, null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(orderDao.getAll(), messageService.getMessage(Messages.Order.successListOrder));
     }
 
     @Override
     public DataResult<OrderDetailResponse> getById(Long id) throws Exception {
         checkIfOrderIdExists(id);
 
-        return new SuccessDataResult<>(orderDao.getOneOrder(id), messageSource.getMessage(Messages.Order.successOneOrder, null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(orderDao.getOneOrder(id), messageService.getMessage(Messages.Order.successOneOrder));
     }
 
     @Override
@@ -53,7 +52,7 @@ public class OrderManager implements OrderService {
 
         AddOrderResponse addOrderResponse = this.modelMapperService.getMapper().map(order, AddOrderResponse.class);
 
-        return new SuccessDataResult<>(addOrderResponse, messageSource.getMessage(Messages.Order.successAddOrder, null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(addOrderResponse, messageService.getMessage(Messages.Order.successAddOrder));
     }
 
     @Override
@@ -67,12 +66,12 @@ public class OrderManager implements OrderService {
 
         UpdateOrderResponse updateOrderResponse = this.modelMapperService.getMapper().map(order, UpdateOrderResponse.class);
 
-        return new SuccessDataResult<>(updateOrderResponse, messageSource.getMessage(Messages.Order.successUpdateOrder, null, LocaleContextHolder.getLocale()));
+        return new SuccessDataResult<>(updateOrderResponse, messageService.getMessage(Messages.Order.successUpdateOrder));
     }
 
     public void checkIfOrderIdExists(Long id) {
         if (!orderDao.existsById(id)) {
-            throw new NotFoundException(messageSource.getMessage(Messages.Order.errorOneOrder, null, LocaleContextHolder.getLocale()));
+            throw new NotFoundException(messageService.getMessage(Messages.Order.errorOneOrder));
         }
     }
 }
