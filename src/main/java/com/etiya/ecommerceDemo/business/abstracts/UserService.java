@@ -7,6 +7,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.user.ListUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UpdateUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
+import com.etiya.ecommerceDemo.core.utils.result.Result;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
@@ -26,4 +27,6 @@ public interface UserService {
     boolean checkIfUserIdExistsWithReturn(Long id);
 
     void checkIfUserIdExists(Long id);
+
+    Result deleteUser(Long id);
 }

@@ -8,6 +8,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.order.ListOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.OrderDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.UpdateOrderResponse;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
+import com.etiya.ecommerceDemo.core.utils.result.Result;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -48,5 +49,10 @@ public class OrdersController {
     @PutMapping("")
     public DataResult<UpdateOrderResponse> updateOrder(@RequestBody @Valid UpdateOrderRequest updateOrderRequest) throws Exception {
         return orderService.updateOrder(updateOrderRequest);
+    }
+
+    @DeleteMapping("/{id}")
+    public Result deleteOrder(@PathVariable Long id) {
+        return orderService.deleteOrder(id);
     }
 }

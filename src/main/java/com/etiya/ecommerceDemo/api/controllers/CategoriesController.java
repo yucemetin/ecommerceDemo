@@ -8,6 +8,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.category.CategoryDetailRe
 import com.etiya.ecommerceDemo.business.dtos.responses.category.ListCategoryResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.category.UpdateCategoryResponse;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
+import com.etiya.ecommerceDemo.core.utils.result.Result;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -48,5 +49,10 @@ public class CategoriesController {
     @PutMapping("")
     public DataResult<UpdateCategoryResponse> updateCategory(@RequestBody @Valid UpdateCategoryRequest updateCategoryRequest) throws Exception {
         return categoryService.updateCategory(updateCategoryRequest);
+    }
+
+    @DeleteMapping("/{id}")
+    public Result deleteCategory(@PathVariable Long id) {
+        return categoryService.delete(id);
     }
 }

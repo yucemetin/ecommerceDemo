@@ -8,6 +8,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.supplier.ListSupplierResp
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.SupplierDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.UpdateSupplierResponse;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
+import com.etiya.ecommerceDemo.core.utils.result.Result;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -47,5 +48,10 @@ public class SuppliersController {
     @PutMapping("")
     public DataResult<UpdateSupplierResponse> updateSupplier(@RequestBody @Valid UpdateSupplierRequest updateSupplierRequest) throws Exception {
         return supplierService.updateSupplier(updateSupplierRequest);
+    }
+
+    @DeleteMapping("/{id}")
+    public Result deleteSupplier(@PathVariable Long id) {
+        return supplierService.deleteSupplier(id);
     }
 }

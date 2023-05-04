@@ -7,6 +7,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.order.ListOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.OrderDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.UpdateOrderResponse;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
+import com.etiya.ecommerceDemo.core.utils.result.Result;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
@@ -22,4 +23,6 @@ public interface OrderService {
     DataResult<AddOrderResponse> addOrder(AddOrderRequest addOrderRequest);
 
     DataResult<UpdateOrderResponse> updateOrder(UpdateOrderRequest updateOrderRequest) throws Exception;
+
+    Result deleteOrder(Long id);
 }

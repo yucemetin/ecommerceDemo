@@ -13,7 +13,9 @@ import com.etiya.ecommerceDemo.core.exceptions.types.NotFoundException;
 import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
+import com.etiya.ecommerceDemo.core.utils.result.Result;
 import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
+import com.etiya.ecommerceDemo.core.utils.result.SuccessResult;
 import com.etiya.ecommerceDemo.entities.concretes.Supplier;
 import com.etiya.ecommerceDemo.repositories.abstracts.SupplierDao;
 import lombok.AllArgsConstructor;
@@ -74,6 +76,13 @@ public class SupplierManager implements SupplierService {
 
 
         return new SuccessDataResult<>(updateSupplierResponse, messageService.getMessage(Messages.Supplier.successUpdateSupplier));
+    }
+
+    @Override
+    public Result deleteSupplier(Long id) {
+        checkIfSupplierIdExists(id);
+        supplierDao.deleteById(id);
+        return new SuccessResult(messageService.getMessage(Messages.Supplier.successDeleteSupplier));
     }
 
     public void checkIfSupplierIdExists(Long id) {

@@ -13,7 +13,9 @@ import com.etiya.ecommerceDemo.core.exceptions.types.NotFoundException;
 import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
+import com.etiya.ecommerceDemo.core.utils.result.Result;
 import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
+import com.etiya.ecommerceDemo.core.utils.result.SuccessResult;
 import com.etiya.ecommerceDemo.entities.concretes.Order;
 import com.etiya.ecommerceDemo.repositories.abstracts.OrderDao;
 import lombok.AllArgsConstructor;
@@ -74,6 +76,13 @@ public class OrderManager implements OrderService {
         UpdateOrderResponse updateOrderResponse = this.modelMapperService.getMapper().map(order, UpdateOrderResponse.class);
 
         return new SuccessDataResult<>(updateOrderResponse, messageService.getMessage(Messages.Order.successUpdateOrder));
+    }
+
+    @Override
+    public Result deleteOrder(Long id) {
+        checkIfOrderIdExists(id);
+        orderDao.deleteById(id);
+        return new SuccessResult(messageService.getMessage(Messages.Order.successDeleteOrder));
     }
 
     public void checkIfOrderIdExists(Long id) {

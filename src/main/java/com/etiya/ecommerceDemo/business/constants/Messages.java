@@ -9,6 +9,7 @@ public class Messages {
         public static final String successUpdateCategory = "successUpdateCategory";
         public static final String existsCategoryName = "existsCategoryName";
         public static final String errorOneCategory = "errorOneCategory";
+        public static final String successDeleteCategory = "successDeleteCategory";
     }
 
     public static class Product {
@@ -17,6 +18,7 @@ public class Messages {
         public static final String successAddProduct = "successAddProduct";
         public static final String successUpdateProduct = "successUpdateProduct";
         public static final String errorOneProduct = "errorOneProduct";
+        public static final String successDeleteProduct = "successDeleteProduct";
     }
 
     public static class Order {
@@ -25,6 +27,7 @@ public class Messages {
         public static final String successAddOrder = "successAddOrder";
         public static final String successUpdateOrder = "successUpdateOrder";
         public static final String errorOneOrder = "errorOneOrder";
+        public static final String successDeleteOrder = "successDeleteOrder";
 
     }
 
@@ -35,6 +38,7 @@ public class Messages {
         public static final String successUpdateSupplier = "successUpdateSupplier";
         public static final String errorOneSupplier = "errorOneSupplier";
         public static final String existsSupplierName = "existsSupplierName";
+        public static final String successDeleteSupplier = "successDeleteSupplier";
     }
 
     public static class User {
@@ -44,6 +48,7 @@ public class Messages {
         public static final String successUpdateUser = "successUpdateUser";
         public static final String errorOneUser = "errorOneUser";
         public static final String existsEmail = "existsEmail";
+        public static final String successDeleteUser = "successDeleteUser";
     }
 
     public static class Validation {

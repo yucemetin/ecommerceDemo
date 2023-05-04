@@ -7,6 +7,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.supplier.ListSupplierResp
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.SupplierDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.UpdateSupplierResponse;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
+import com.etiya.ecommerceDemo.core.utils.result.Result;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
@@ -22,4 +23,6 @@ public interface SupplierService {
     DataResult<AddSupplierResponse> addSupplier(AddSupplierRequest addSupplierRequest) throws Exception;
 
     DataResult<UpdateSupplierResponse> updateSupplier(UpdateSupplierRequest updateSupplierRequest) throws Exception;
+
+    Result deleteSupplier(Long id);
 }

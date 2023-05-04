@@ -8,6 +8,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.user.ListUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UpdateUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
+import com.etiya.ecommerceDemo.core.utils.result.Result;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -48,5 +49,10 @@ public class UsersController {
     @PutMapping("")
     public DataResult<UpdateUserResponse> updateUser(@RequestBody @Valid UpdateUserRequest updateUserRequest) {
         return userService.updateUser(updateUserRequest);
+    }
+
+    @DeleteMapping("/{id}")
+    public Result deleteUser(@PathVariable Long id) {
+        return userService.deleteUser(id);
     }
 }

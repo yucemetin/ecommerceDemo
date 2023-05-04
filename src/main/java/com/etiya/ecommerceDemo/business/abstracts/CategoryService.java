@@ -7,6 +7,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.category.CategoryDetailRe
 import com.etiya.ecommerceDemo.business.dtos.responses.category.ListCategoryResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.category.UpdateCategoryResponse;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
+import com.etiya.ecommerceDemo.core.utils.result.Result;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
@@ -25,4 +26,6 @@ public interface CategoryService {
     DataResult<UpdateCategoryResponse> updateCategory(UpdateCategoryRequest updateCategoryRequest) throws Exception;
 
     void checkIfCategoryIdExists(Long id) throws Exception;
+
+    Result delete(Long id);
 }

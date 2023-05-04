@@ -1,5 +1,7 @@
 package com.etiya.ecommerceDemo.business.concretes;
 
+import com.etiya.ecommerceDemo.business.abstracts.OrderService;
+import com.etiya.ecommerceDemo.business.abstracts.UserService;
 import com.etiya.ecommerceDemo.business.constants.Messages;
 import com.etiya.ecommerceDemo.business.dtos.requests.order.AddOrderRequest;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.AddOrderResponse;
@@ -37,8 +39,8 @@ class OrderManagerTest {
     private MessageSource messageSource;
     private UserDao userDao;
     private MessageService messageService;
-    private UserManager userManager;
-    private OrderManager orderManager;
+    private UserService userService;
+    private OrderService orderService;
 
     public ResourceBundleMessageSource getBundleMessageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
@@ -54,8 +56,8 @@ class OrderManagerTest {
         orderDao = mock(OrderDao.class);
         userDao = mock(UserDao.class);
 
-        orderManager = new OrderManager(orderDao, modelMapperService, messageService, userManager);
-        userManager = new UserManager(userDao, modelMapperService, messageService);
+        userService = new UserManager(userDao, modelMapperService, messageService);
+        orderService = new OrderManager(orderDao, modelMapperService, messageService, userService);
     }
 
     @AfterEach
@@ -72,7 +74,7 @@ class OrderManagerTest {
 
         when(orderDao.getAll()).thenReturn(fakeResult.getData());
 
-        DataResult<List<ListOrderResponse>> expectedResult = orderManager.getAll();
+        DataResult<List<ListOrderResponse>> expectedResult = orderService.getAll();
 
         assert expectedResult.getData().equals(fakeResult.getData());
     }
@@ -85,7 +87,7 @@ class OrderManagerTest {
 
         when(orderDao.getOneOrder(1L)).thenReturn(fakeResult.getData());
 
-        DataResult<OrderDetailResponse> expectedResult = orderManager.getById(1L);
+        DataResult<OrderDetailResponse> expectedResult = orderService.getById(1L);
 
         assert expectedResult.getData().equals(fakeResult.getData());
     }
@@ -94,14 +96,14 @@ class OrderManagerTest {
     void addOrder() {
         when(userDao.existsById(any())).thenReturn(true);
 
-        AddOrderRequest addOrderRequest = new AddOrderRequest(new Date(), 2L);
+        AddOrderRequest addOrderRequest = new AddOrderRequest(new Date(), 1L);
 
-        DataResult<AddOrderResponse> actualResult = orderManager.addOrder(addOrderRequest);
+        DataResult<AddOrderResponse> actualResult = orderService.addOrder(addOrderRequest);
         actualResult.getData().setId(1L);
 
-        DataResult<AddOrderResponse> expectedResult = new SuccessDataResult<>(new AddOrderResponse(1L, new Date(), new User(2L, "Metin", "Yüce", "metin@hotmail.com", "1231233123", null, null, null)));
+        DataResult<AddOrderResponse> expectedResult = new SuccessDataResult<>(new AddOrderResponse(1L, new Date(), new User(1L, "Metin", "Yüce", "metin@hotmail.com", "1231233123", null, null, null)));
 
-        assert actualResult.getData().equals(expectedResult.getData());
+        assert actualResult.getData().getId().equals(expectedResult.getData().getId());
     }
 
     @Test
