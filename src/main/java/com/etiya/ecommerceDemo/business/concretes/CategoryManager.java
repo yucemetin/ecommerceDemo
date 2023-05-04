@@ -93,7 +93,7 @@ public class CategoryManager implements CategoryService {
     public void checkIfCategoryNameExistsForUpdate(String categoryName, Long id) {
         if (categoryDao.findById(id).orElseThrow(() -> {
             throw new NotFoundException(messageService.getMessage(Messages.Category.errorOneCategory));
-        }).getName() == categoryName) {
+        }).getName().equals(categoryName)) {
             if (categoryDao.existsCategoriesByName(categoryName)) {
                 throw new BusinessException(messageService.getMessage(Messages.Category.existsCategoryName));
             }
