@@ -12,6 +12,3 @@ public class EcommerceDemoApplication {
     }
 
 }
-
-// TODO
-// ! testler gözden geçirilecek.
