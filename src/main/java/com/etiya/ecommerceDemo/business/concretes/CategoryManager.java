@@ -68,8 +68,7 @@ public class CategoryManager implements CategoryService {
     @Override
     public DataResult<UpdateCategoryResponse> updateCategory(UpdateCategoryRequest updateCategoryRequest) {
 
-        checkIfCategoryIdExists(updateCategoryRequest.getId());
-        checkIfCategoryNameExists(updateCategoryRequest.getName());
+        checkIfCategoryNameExistsForUpdate(updateCategoryRequest.getName(), updateCategoryRequest.getId());
 
         Category category = modelMapperService.getMapper().map(updateCategoryRequest, Category.class);
         categoryDao.save(category);
@@ -89,6 +88,17 @@ public class CategoryManager implements CategoryService {
         if (!categoryDao.existsById(id)) {
             throw new NotFoundException(messageService.getMessage(Messages.Category.errorOneCategory));
         }
+    }
+
+    public void checkIfCategoryNameExistsForUpdate(String categoryName, Long id) {
+        if (categoryDao.findById(id).orElseThrow(() -> {
+            throw new NotFoundException(messageService.getMessage(Messages.Category.errorOneCategory));
+        }).getName() == categoryName) {
+            if (categoryDao.existsCategoriesByName(categoryName)) {
+                throw new BusinessException(messageService.getMessage(Messages.Category.existsCategoryName));
+            }
+        }
+
     }
 
     @Override

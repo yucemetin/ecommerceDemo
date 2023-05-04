@@ -14,5 +14,4 @@ public class EcommerceDemoApplication {
 }
 
 // TODO
-// ? update değişmeyen fieldlar için verilen zaten mevcut hatasını düzelt.
-// ? testler gözden geçirilecek.
+// ! testler gözden geçirilecek.
