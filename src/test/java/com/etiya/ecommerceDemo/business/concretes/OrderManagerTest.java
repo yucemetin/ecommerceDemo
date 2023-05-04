@@ -4,9 +4,12 @@ import com.etiya.ecommerceDemo.business.abstracts.OrderService;
 import com.etiya.ecommerceDemo.business.abstracts.UserService;
 import com.etiya.ecommerceDemo.business.constants.Messages;
 import com.etiya.ecommerceDemo.business.dtos.requests.order.AddOrderRequest;
+import com.etiya.ecommerceDemo.business.dtos.requests.order.UpdateOrderRequest;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.AddOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.ListOrderResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.order.OrderDetailResponse;
+import com.etiya.ecommerceDemo.business.dtos.responses.order.UpdateOrderResponse;
+import com.etiya.ecommerceDemo.core.exceptions.types.NotFoundException;
 import com.etiya.ecommerceDemo.core.internationalization.MessageManager;
 import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperManager;
@@ -107,6 +110,27 @@ class OrderManagerTest {
     }
 
     @Test
-    void updateOrder() {
+    void updateOrder() throws Exception {
+        when(userDao.existsById(any())).thenReturn(true);
+        when(orderDao.existsById(any())).thenReturn(true);
+
+        UpdateOrderRequest updateOrderRequest = new UpdateOrderRequest(1L, 3L);
+
+        DataResult<UpdateOrderResponse> actualResult = new SuccessDataResult<>(new UpdateOrderResponse(1L, new Date(), 3L));
+        DataResult<UpdateOrderResponse> expectedResult = orderService.updateOrder(updateOrderRequest);
+
+        assert actualResult.getData().getId().equals(expectedResult.getData().getId()) && actualResult.getData().getUserId().equals(expectedResult.getData().getUserId());
+
+    }
+
+    @Test
+    void deleteWithNonExistsIdShouldThrowException() {
+        when(orderDao.existsById(1L)).thenReturn(false);
+        when(orderDao.existsById(2L)).thenReturn(true);
+
+        assertThrows(NotFoundException.class, () -> {
+            orderService.deleteOrder(1L);
+        });
+
     }
 }

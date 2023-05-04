@@ -13,6 +13,7 @@ import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperManager;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperService;
 import com.etiya.ecommerceDemo.core.utils.result.DataResult;
+import com.etiya.ecommerceDemo.core.utils.result.Result;
 import com.etiya.ecommerceDemo.core.utils.result.SuccessDataResult;
 import com.etiya.ecommerceDemo.repositories.abstracts.CategoryDao;
 import org.junit.jupiter.api.AfterEach;
@@ -121,4 +122,17 @@ class CategoryManagerTest {
 
         assert actualResponse.getData().equals(expectedResponse.getData());
     }
+
+    @Test
+    void deleteWithNonExistsIdShouldThrowException() {
+        when(categoryDao.existsById(1L)).thenReturn(false);
+        when(categoryDao.existsById(2L)).thenReturn(true);
+
+        assertThrows(NotFoundException.class, () -> {
+            categoryManager.delete(1L);
+        });
+
+    }
+
+
 }

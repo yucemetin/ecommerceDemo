@@ -68,6 +68,7 @@ public class OrderManager implements OrderService {
     public DataResult<UpdateOrderResponse> updateOrder(UpdateOrderRequest updateOrderRequest) {
 
         checkIfOrderIdExists(updateOrderRequest.getId());
+        userService.checkIfUserIdExists(updateOrderRequest.getUserId());
 
         Order order = modelMapperService.getMapper().map(updateOrderRequest, Order.class);
 

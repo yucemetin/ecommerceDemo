@@ -7,6 +7,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.user.AddUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.ListUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UpdateUserResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.user.UserDetailResponse;
+import com.etiya.ecommerceDemo.core.exceptions.types.NotFoundException;
 import com.etiya.ecommerceDemo.core.internationalization.MessageManager;
 import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperManager;
@@ -113,5 +114,15 @@ class UserManagerTest {
         DataResult<UpdateUserResponse> expectedResult = new SuccessDataResult<>(new UpdateUserResponse(1L, "Metin", "Yüce", "metin@gmail.com", "123123"));
 
         assert actualResult.getData().equals(expectedResult.getData());
+    }
+
+    @Test
+    void deleteWithNonExistsIdShouldThrowException() {
+        when(userDao.existsById(1L)).thenReturn(false);
+
+        assertThrows(NotFoundException.class, () -> {
+            userManager.deleteUser(1L);
+        });
+
     }
 }

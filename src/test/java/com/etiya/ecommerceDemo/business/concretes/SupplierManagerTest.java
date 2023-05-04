@@ -6,6 +6,7 @@ import com.etiya.ecommerceDemo.business.dtos.responses.supplier.AddSupplierRespo
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.ListSupplierResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.SupplierDetailResponse;
 import com.etiya.ecommerceDemo.business.dtos.responses.supplier.UpdateSupplierResponse;
+import com.etiya.ecommerceDemo.core.exceptions.types.NotFoundException;
 import com.etiya.ecommerceDemo.core.internationalization.MessageManager;
 import com.etiya.ecommerceDemo.core.internationalization.MessageService;
 import com.etiya.ecommerceDemo.core.utils.mapper.ModelMapperManager;
@@ -111,5 +112,15 @@ class SupplierManagerTest {
         DataResult<UpdateSupplierResponse> expectedData = new SuccessDataResult<>(new UpdateSupplierResponse(1L, "Trendyol"));
 
         assert actualResult.getData().equals(expectedData.getData());
+    }
+
+    @Test
+    void deleteWithNonExistsIdShouldThrowException() {
+        when(supplierDao.existsById(1L)).thenReturn(false);
+
+        assertThrows(NotFoundException.class, () -> {
+            supplierManager.deleteSupplier(1L);
+        });
+
     }
 }
